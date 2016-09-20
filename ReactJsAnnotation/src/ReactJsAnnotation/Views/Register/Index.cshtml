@@ -1,0 +1,30 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "registerFormId" }))
+{
+	@Html.AntiForgeryToken()
+	@Html.ValidationSummary(true)
+
+	<div id="container"></div>
+}
+
+<script type="text/javascript">
+
+</script>
+
+<script src="~/lib/react/react.js"></script>
+<script src="~/lib/react/react-dom.js"></script>
+
+<script type="text/javascript" src="~/js/common/collection.js"></script>
+<script type="text/javascript" src="~/js/common/dictionary.js"></script>
+<script type="text/javascript" src="~/js/common/enums.js"></script>
+<script type="text/javascript" src="~/js/common/models/dataannotations.js"></script>
+<script type="text/javascript" src="~/js/common/helpers/htmlutility.js"></script>
+<script type="text/javascript" src="~/js/common/helpers/tagbuilder.js"></script>
+<script type="text/javascript" src="~/js/common/helpers/inputhelper.js"></script>
+@*<script type="text/javascript" src="~/js/register/registermodel.js"></script>
+<script type="text/javascript" src="~/js/register/register.js"></script>*@

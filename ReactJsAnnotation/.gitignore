@@ -1,0 +1,9 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/artifacts
+/src/ReactJsAnnotation/bin
+/src/ReactJsAnnotation/obj
+/src/ReactJsAnnotation/node_modules
+/src/ReactJsAnnotation/wwwroot/lib
