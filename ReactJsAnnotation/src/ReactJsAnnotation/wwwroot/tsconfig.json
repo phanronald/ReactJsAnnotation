@@ -20,7 +20,7 @@
 		"!node_modules/**"
 	],
 	"files": [
-		"js/register/register.tsx"
+		//"js/register/register.tsx"
 	],
 	"exclude": [ ]
 }
