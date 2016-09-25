@@ -1,10 +1,10 @@
-﻿var CSharpDataAnnoation = {
+﻿var CSharpDataAnnoationType = {
 	Custom: 0,
 	DateTime: 1,
 	Date: 2,
 	Time: 3,
 	Duration: 4,
-	PhoneNumber: 5,
+	Phone: 5,
 	Currency: 6,
 	Text: 7,
 	Html: 8,

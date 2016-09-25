@@ -31,8 +31,6 @@ namespace ReactJsAnnotation.Controllers
 			for (var i = 0; i < properties.Count(); i++)
 			{
 				var property = properties[i];
-				var dataAnnotationDictionary = new Dictionary<string, List<Attribute>>();
-
 				var displayName = AttributeExtensions.GetAttributeFrom<DisplayAttribute>(regModel, property.Name).Name;
 				var requiredAttr = AttributeExtensions.GetAttributeFrom<RequiredAttribute>(regModel, property.Name);
 				var emailAttr = AttributeExtensions.GetAttributeFrom<EmailAddressAttribute>(regModel, property.Name);
@@ -41,19 +39,33 @@ namespace ReactJsAnnotation.Controllers
 				var rangeAttr = AttributeExtensions.GetAttributeFrom<RangeAttribute>(regModel, property.Name);
 				var creditcardAttr = AttributeExtensions.GetAttributeFrom<CreditCardAttribute>(regModel, property.Name);
 
+				var customAttributes = property.CustomAttributes.Where(x => !x.AttributeType.Name.Equals("DisplayAttribute")).ToList();
+
 				var allAttributes = new List<Attribute>()
 				{
 					requiredAttr, emailAttr, phoneAttr, regexAttr, rangeAttr, creditcardAttr
 				}.Where(x => x != null).ToList();
 
-				dataAnnotationDictionary.Add(property.Name, allAttributes);
+				var allReactAttributes = new List<ReactCustomDataAnnotation>();
+				for (var j = 0; j < allAttributes.Count; j++)
+				{
+					var allAttribute = allAttributes[j];
+					var customAttribute = customAttributes[j];
+
+					allReactAttributes.Add(new ReactCustomDataAnnotation()
+					{
+						AttributeType = customAttribute.AttributeType.Name,
+						DataAnnotationAttribute = allAttribute
+					});
+
+				}
 
 				var info = new vmRegisterInfo()
 				{
 					FieldName = property.Name,
 					FieldValue = property.GetValue(regModel, null),
 					DisplayName = displayName,
-					DataAnnotations = dataAnnotationDictionary
+					DataAnnotations = allReactAttributes
 				};
 
 				listOfRegisterInfo.Add(info);

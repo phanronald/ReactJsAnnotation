@@ -12,7 +12,8 @@
 }
 
 <script type="text/javascript">
-
+	var registerModel = @Html.Raw((Json.Serialize(Model.AllPropertyAnnotation)));
+	/*registerModel[10].dataAnnotations.NumberOfEmployees[0].dataAnnotationAttribute.minimum*/
 </script>
 
 <script src="~/lib/react/react.js"></script>
@@ -25,5 +26,5 @@
 <script type="text/javascript" src="~/js/common/helpers/htmlutility.js"></script>
 <script type="text/javascript" src="~/js/common/helpers/tagbuilder.js"></script>
 <script type="text/javascript" src="~/js/common/helpers/inputhelper.js"></script>
-@*<script type="text/javascript" src="~/js/register/registermodel.js"></script>
-<script type="text/javascript" src="~/js/register/register.js"></script>*@
+<script type="text/javascript" src="~/js/register/dataannotationmodel.js"></script>
+<script type="text/javascript" src="~/js/register/register.js"></script>

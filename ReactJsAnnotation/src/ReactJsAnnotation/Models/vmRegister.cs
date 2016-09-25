@@ -16,7 +16,13 @@ namespace ReactJsAnnotation.Models
 		public string FieldName { get; set; }
 		public object FieldValue { get; set; }
 		public string DisplayName { get; set; }
-		public Dictionary<string, List<Attribute>> DataAnnotations { get; set; }
+		public List<ReactCustomDataAnnotation> DataAnnotations { get; set; }
+	}
+
+	public class ReactCustomDataAnnotation
+	{
+		public string AttributeType { get; set; }
+		public Attribute DataAnnotationAttribute { get; set; }
 	}
 
 	public class vmRegister

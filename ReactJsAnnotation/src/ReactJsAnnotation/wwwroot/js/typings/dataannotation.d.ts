@@ -1,12 +1,12 @@
 ﻿/// <reference path="../common/dictionary.ts" />
 
-declare enum CSharpDataAnnoation {
+declare enum CSharpDataAnnoationType {
 	Custom,
 	DateTime,
 	Date,
 	Time,
 	Duration,
-	PhoneNumber,
+	Phone,
 	Currency,
 	Text,
 	Html,
@@ -40,9 +40,7 @@ declare enum TagRenderMode {
 }
 
 interface ICSharpDataAnnotation {
-	AnnotationType: CSharpDataAnnoation;
-	FieldName: string;
-	VariableType: string;
+	AnnotationType: CSharpDataAnnoationType;
 	ErrorMessage: string;
 	DefaultErrorMessage: string;
 	DataValueAttribute: Dictionary<string, Object>;

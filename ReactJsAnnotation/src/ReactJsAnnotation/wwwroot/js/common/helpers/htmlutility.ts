@@ -1,5 +1,5 @@
 ﻿
-namespace BasicNetCore {
+namespace System.Web.Mvc {
 	export class HtmlUtility {
 		private static entityMap = {
 			"&": "&amp;",
@@ -25,7 +25,7 @@ namespace BasicNetCore {
 		public static CreateReactJsElement(inputType: string, htmlString: string): React.DOMElement<{}, Element> {
 
 			let elementProperties = {};
-			const inputDocument: Document = BasicNetCore.HtmlUtility.HtmlParsed(htmlString);
+			const inputDocument: Document = System.Web.Mvc.HtmlUtility.HtmlParsed(htmlString);
 			const inputElement:Element = inputDocument.getElementsByTagName(inputType)[0];
 			const attributes: NamedNodeMap = inputElement.attributes;
 
@@ -33,7 +33,12 @@ namespace BasicNetCore {
 				const currentAttribute:Attr = attributes[index];
 				if (currentAttribute !== undefined && currentAttribute !== null && typeof (currentAttribute) !== "function") {
 					if (currentAttribute.name !== undefined && currentAttribute.value !== undefined) {
-						elementProperties[currentAttribute.name] = currentAttribute.value;
+						let attributeName: string = currentAttribute.name;
+						if (currentAttribute.name === "defaultvalue") {
+							attributeName = "defaultValue";
+						}
+
+						elementProperties[attributeName] = currentAttribute.value;
 					}
 				}
 			}

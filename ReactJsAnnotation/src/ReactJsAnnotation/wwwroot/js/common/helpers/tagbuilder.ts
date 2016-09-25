@@ -1,7 +1,7 @@
 ﻿/// <reference path="htmlutility.ts" />
 /// <reference path="../dictionary.ts" />
 
-namespace BasicNetCore.HtmlBuilder {
+namespace System.Web.Mvc {
 
 	interface ITagBuilder {
 		TagName: string;
@@ -98,7 +98,7 @@ namespace BasicNetCore.HtmlBuilder {
 		}
 
 		public SetInnerText = (innerText: string): void => {
-			this.InnerHtml = BasicNetCore.HtmlUtility.HtmlEncode(innerText);
+			this.InnerHtml = System.Web.Mvc.HtmlUtility.HtmlEncode(innerText);
 		}
 
 		public ToString = (renderMode: TagRenderMode): string => {

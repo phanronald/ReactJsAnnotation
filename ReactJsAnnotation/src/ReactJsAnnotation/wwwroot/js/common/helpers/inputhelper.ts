@@ -2,11 +2,11 @@
 /// <reference path="../dictionary.ts" />
 /// <reference path="tagbuilder.ts" />
 
-namespace BasicNetCore.InputExtensions {
+namespace System.Web.Mvc.Html {
 
 	export class InputHelper {
 
-		private tagBuilder: BasicNetCore.HtmlBuilder.TagBuilder;
+		private tagBuilder: System.Web.Mvc.TagBuilder;
 		private hasCheckboxFlag: boolean;
 		private inputTypeString: string;
 		private inputValue: string;
@@ -15,7 +15,7 @@ namespace BasicNetCore.InputExtensions {
 		constructor(public inputType: InputType, public fieldName: string, public value: Object,
 					public htmlAttributes: Dictionary<string, Object>) {
 
-			this.tagBuilder = new BasicNetCore.HtmlBuilder.TagBuilder("input");
+			this.tagBuilder = new System.Web.Mvc.TagBuilder("input");
 			this.inputValue = (value !== undefined && value !== null) ? value.toString() : "";
 			this.aspnetMvcString = this.SetupInput();
 		}
