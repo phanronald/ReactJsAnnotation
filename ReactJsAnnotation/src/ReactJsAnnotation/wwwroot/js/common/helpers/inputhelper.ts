@@ -1,10 +1,41 @@
 ﻿/// <reference path="../../typings/dataannotation.d.ts" />
 /// <reference path="../dictionary.ts" />
 /// <reference path="tagbuilder.ts" />
+/// <reference path="../../typings/react/react-global.d.ts" />
 
 namespace System.Web.Mvc.Html {
 
-	export class InputHelper {
+	export class CheckBoxFor extends InputHelper {
+		constructor(public fieldName: string, public value: Object, public htmlAttributes: Dictionary<string, Object>) {
+			super(InputType.CheckBox, fieldName, value, htmlAttributes);
+		}
+	}
+
+	export class HiddenFor extends InputHelper {
+		constructor(public fieldName: string, public value: Object, public htmlAttributes: Dictionary<string, Object>) {
+			super(InputType.Hidden, fieldName, value, htmlAttributes);
+		}
+	}
+
+	export class PasswordFor extends InputHelper {
+		constructor(public fieldName: string, public value: Object, public htmlAttributes: Dictionary<string, Object>) {
+			super(InputType.Password, fieldName, value, htmlAttributes);
+		}
+	}
+
+	export class RadioButtonFor extends InputHelper {
+		constructor(public fieldName: string, public value: Object, public htmlAttributes: Dictionary<string, Object>) {
+			super(InputType.Radio, fieldName, value, htmlAttributes);
+		}
+	}
+
+	export class TextBoxFor extends InputHelper {
+		constructor(public fieldName: string, public value: Object, public htmlAttributes: Dictionary<string, Object>) {
+			super(InputType.Text, fieldName, value, htmlAttributes);
+		}
+	}
+
+	class InputHelper {
 
 		private tagBuilder: System.Web.Mvc.TagBuilder;
 		private hasCheckboxFlag: boolean;
@@ -58,6 +89,7 @@ namespace System.Web.Mvc.Html {
 			this.tagBuilder.MergeAttributes(this.htmlAttributes, false);
 			this.tagBuilder.MergeAttribute("type", this.inputTypeString, false);
 			this.tagBuilder.MergeAttribute("name", this.fieldName, true);
+			this.tagBuilder.GenerateId(this.fieldName);
 
 			switch (this.inputType) {
 				case InputType.CheckBox: {
@@ -81,12 +113,7 @@ namespace System.Web.Mvc.Html {
 				}
 			};
 
-			if (this.inputType === InputType.CheckBox) {
-				return this.tagBuilder.ToString(TagRenderMode.SelfClosing);
-			}
-			else {
-				return this.tagBuilder.ToString(TagRenderMode.SelfClosing);
-			}
+			return this.tagBuilder.ToString(TagRenderMode.SelfClosing);
 		}
 
 		private SetupReactElement = (): React.DOMElement<{}, Element> => {

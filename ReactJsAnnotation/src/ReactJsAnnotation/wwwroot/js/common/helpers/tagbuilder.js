@@ -52,11 +52,13 @@ var System;
                         return _this.IdAttributeDotReplacement;
                     };
                     this.MergeAttribute = function (key, value, replaceExisting) {
+                        if (replaceExisting === void 0) { replaceExisting = false; }
                         if (replaceExisting || !_this.Attributes.ContainsKey(key)) {
                             _this.Attributes.Add(key, value);
                         }
                     };
                     this.MergeAttributes = function (attributes, replaceExisting) {
+                        if (replaceExisting === void 0) { replaceExisting = false; }
                         if (attributes !== undefined && attributes !== null) {
                             for (var _i = 0, _a = attributes.ToArray(); _i < _a.length; _i++) {
                                 var kvPair = _a[_i];

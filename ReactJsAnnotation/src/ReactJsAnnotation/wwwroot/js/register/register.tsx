@@ -23,7 +23,7 @@ class Register extends React.Component<ICustomDataAnnotationModel, any> {
 						Object.keys(dataFromServer).map((key, index) => {
 							const customAnnotation = dataFromServer[index];
 							const dataAnnotationModel = new DataAnnotationModel(customAnnotation);
-							var customReactElement = new System.Web.Mvc.Html.InputHelper(InputType.Text, customAnnotation.fieldName, customAnnotation.fieldValue, dataAnnotationModel.GetAnnotations()).GetReactJsElement();
+							var customReactElement = new System.Web.Mvc.Html.TextBoxFor(customAnnotation.fieldName, customAnnotation.fieldValue, dataAnnotationModel.GetAnnotations()).GetReactJsElement();
 
 							return (
 								<div className="row" key={index}>

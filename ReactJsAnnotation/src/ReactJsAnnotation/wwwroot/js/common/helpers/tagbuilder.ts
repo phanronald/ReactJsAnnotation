@@ -76,13 +76,13 @@ namespace System.Web.Mvc {
 			return this.IdAttributeDotReplacement;
 		}
 
-		public MergeAttribute = (key: string, value: string, replaceExisting: boolean): void => {
+		public MergeAttribute = (key: string, value: string, replaceExisting: boolean = false): void => {
 			if (replaceExisting || !this.Attributes.ContainsKey(key)) {
 				this.Attributes.Add(key, value);
 			}
 		}
 
-		public MergeAttributes = (attributes: Dictionary<any, any>, replaceExisting: boolean): void => {
+		public MergeAttributes = (attributes: Dictionary<any, any>, replaceExisting: boolean = false): void => {
 
 			if (attributes !== undefined && attributes !== null) {
 				for (var kvPair of attributes.ToArray()) {
