@@ -98,7 +98,7 @@ namespace System.Web.Mvc {
 		}
 
 		public SetInnerText = (innerText: string): void => {
-			this.InnerHtml = System.Web.Mvc.HtmlUtility.HtmlEncode(innerText);
+			this.InnerHtml = System.Web.Mvc.Html.HtmlUtility.HtmlEncode(innerText);
 		}
 
 		public ToString = (renderMode: TagRenderMode): string => {

@@ -5,36 +5,6 @@
 
 namespace System.Web.Mvc.Html {
 
-	export class CheckBoxFor extends InputHelper {
-		constructor(public fieldName: string, public value: Object, public htmlAttributes: Dictionary<string, Object>) {
-			super(InputType.CheckBox, fieldName, value, htmlAttributes);
-		}
-	}
-
-	export class HiddenFor extends InputHelper {
-		constructor(public fieldName: string, public value: Object, public htmlAttributes: Dictionary<string, Object>) {
-			super(InputType.Hidden, fieldName, value, htmlAttributes);
-		}
-	}
-
-	export class PasswordFor extends InputHelper {
-		constructor(public fieldName: string, public value: Object, public htmlAttributes: Dictionary<string, Object>) {
-			super(InputType.Password, fieldName, value, htmlAttributes);
-		}
-	}
-
-	export class RadioButtonFor extends InputHelper {
-		constructor(public fieldName: string, public value: Object, public htmlAttributes: Dictionary<string, Object>) {
-			super(InputType.Radio, fieldName, value, htmlAttributes);
-		}
-	}
-
-	export class TextBoxFor extends InputHelper {
-		constructor(public fieldName: string, public value: Object, public htmlAttributes: Dictionary<string, Object>) {
-			super(InputType.Text, fieldName, value, htmlAttributes);
-		}
-	}
-
 	class InputHelper {
 
 		private tagBuilder: System.Web.Mvc.TagBuilder;
@@ -119,6 +89,36 @@ namespace System.Web.Mvc.Html {
 		private SetupReactElement = (): React.DOMElement<{}, Element> => {
 
 			return HtmlUtility.CreateReactJsElement("input", this.aspnetMvcString);
+		}
+	}
+
+	export class CheckBoxFor extends InputHelper {
+		constructor(public fieldName: string, public value: Object, public htmlAttributes: Dictionary<string, Object>) {
+			super(InputType.CheckBox, fieldName, value, htmlAttributes);
+		}
+	}
+
+	export class HiddenFor extends InputHelper {
+		constructor(public fieldName: string, public value: Object, public htmlAttributes: Dictionary<string, Object>) {
+			super(InputType.Hidden, fieldName, value, htmlAttributes);
+		}
+	}
+
+	export class PasswordFor extends InputHelper {
+		constructor(public fieldName: string, public value: Object, public htmlAttributes: Dictionary<string, Object>) {
+			super(InputType.Password, fieldName, value, htmlAttributes);
+		}
+	}
+
+	export class RadioButtonFor extends InputHelper {
+		constructor(public fieldName: string, public value: Object, public htmlAttributes: Dictionary<string, Object>) {
+			super(InputType.Radio, fieldName, value, htmlAttributes);
+		}
+	}
+
+	export class TextBoxFor extends InputHelper {
+		constructor(public fieldName: string, public value: Object, public htmlAttributes: Dictionary<string, Object>) {
+			super(InputType.Text, fieldName, value, htmlAttributes);
 		}
 	}
 }

@@ -72,7 +72,7 @@ var System;
                         _this.IdAttributeDotReplacement = idAttributeDotReplacement;
                     };
                     this.SetInnerText = function (innerText) {
-                        _this.InnerHtml = System.Web.Mvc.HtmlUtility.HtmlEncode(innerText);
+                        _this.InnerHtml = System.Web.Mvc.Html.HtmlUtility.HtmlEncode(innerText);
                     };
                     this.ToString = function (renderMode) {
                         var sb = "";

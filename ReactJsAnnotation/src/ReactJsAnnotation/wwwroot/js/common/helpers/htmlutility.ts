@@ -1,5 +1,5 @@
 ﻿
-namespace System.Web.Mvc {
+namespace System.Web.Mvc.Html {
 	export class HtmlUtility {
 		private static entityMap = {
 			"&": "&amp;",
@@ -25,7 +25,7 @@ namespace System.Web.Mvc {
 		public static CreateReactJsElement(inputType: string, htmlString: string): React.DOMElement<{}, Element> {
 
 			let elementProperties = {};
-			const inputDocument: Document = System.Web.Mvc.HtmlUtility.HtmlParsed(htmlString);
+			const inputDocument: Document = System.Web.Mvc.Html.HtmlUtility.HtmlParsed(htmlString);
 			const inputElement:Element = inputDocument.getElementsByTagName(inputType)[0];
 			const attributes: NamedNodeMap = inputElement.attributes;
 
