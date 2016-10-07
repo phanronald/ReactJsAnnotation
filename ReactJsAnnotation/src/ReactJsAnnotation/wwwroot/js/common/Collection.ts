@@ -13,6 +13,10 @@ class Collection<T> {
 		this._items.push(...items);
 	}
 
+	public Aggregate = <U>(callbackfun: (previousValue: U, currentValue?: T, currentIndex?: number, list?: T[]) => any, initialValue ?: U): any => {
+		return this._items.reduce(callbackfun, initialValue);
+	}
+
 	public Any = (expression?: (value?: T, index?: number, list?: T[]) => boolean): boolean => {
 		return expression === undefined ? this._items.length > 0 : this._items.some(expression);
 	}
@@ -45,6 +49,10 @@ class Collection<T> {
 	}
 
 	public ElementAtOrDefault = (index: number): T => {
+		if (this.Count() == 0) {
+			return undefined;
+		}
+
 		return this.ElementAt(index) || undefined;
 	}
 
@@ -60,6 +68,26 @@ class Collection<T> {
 
 		const firstWithExpression = this.First(expression);
 		return (firstWithExpression === undefined ? undefined : firstWithExpression);
+	}
+
+	public GroupBy = (keyToGroup: (key: T) => T): Array<T[]> => {
+
+		let groupedBy:Array<T[]> = [];
+		for (let i = 0; i < this.Count(); i++) {
+			let currentItemInCollection = this.ElementAt(i);
+			let currentKey = keyToGroup(currentItemInCollection);
+			if (currentKey) {
+				let currentGroupBy = this.LookThroughGroupArray(currentKey, keyToGroup, groupedBy);
+				if (currentGroupBy === undefined) {
+					groupedBy.push([currentItemInCollection]);
+				}
+				else {
+					currentGroupBy.push(currentItemInCollection);
+				}
+			}
+		}
+
+		return groupedBy;
 	}
 
 	// Find the index of a given object in a collection
@@ -140,6 +168,34 @@ class Collection<T> {
 		return this.Single(expression);
 	}
 
+	public Skip = (amount: number): Collection<T> => {
+		if (this.Count() == 0) {
+			return this.EmptyCollection();
+		}
+
+		const skippedArray = this._items.slice(Math.max(0, amount));
+		return this.ConvertArrayToCollection(skippedArray);
+	}
+
+	public SkipWhile = (expression?: (value?: T, index?: number, list?: T[]) => boolean): Collection<T> => {
+		var aggregated = this.Aggregate((prev, current) => expression(this.ElementAt(prev)) ? ++prev : prev, 0);
+		return this.Skip(aggregated);
+	}
+
+	public Take = (amount: number): Collection<T> => {
+		if (this.Count() == 0) {
+			return this.EmptyCollection();
+		}
+
+		const takenArray = this._items.slice(0, Math.max(0, amount));
+		return this.ConvertArrayToCollection(takenArray);
+	}
+
+	public TakeWhile = (expression?: (value?: T, index?: number, list?: T[]) => boolean): Collection<T> => {
+		var aggregated = this.Aggregate((prev:number, current:T) => expression(this.ElementAt(prev)) ? ++prev : prev, 0);
+		return this.Take(aggregated);
+	}
+
 	public Where = (expression?: (value?: T, index?: number, list?: T[]) => boolean): Collection<T> => {
 		const filteredArray = this._items.filter(expression);
 		return this.ConvertArrayToCollection(filteredArray);
@@ -164,6 +220,10 @@ class Collection<T> {
 		return newList;
 	}
 
+	private EmptyCollection = (): Collection<T> => {
+		return new Collection<T>();
+	}
+
 	private ComparerForKey = (keySelector: (key: T) => any, descending?: boolean): ((a: T, b: T) => number) => {
 
 		return (a: T, b: T) => {
@@ -183,5 +243,16 @@ class Collection<T> {
 		}
 
 		return 0;
+	}
+
+	private LookThroughGroupArray = (item: T, keyToGroup: (key: T) => T, groupedArray: Array<T[]>): T[] => {
+
+		for (let i = 0; i < groupedArray.length; i++) {
+			if (groupedArray[i].length > 0 && keyToGroup(groupedArray[i][0]) == item) {
+				return groupedArray[i];
+			}
+		}
+
+		return undefined;
 	}
 }

@@ -14,13 +14,6 @@ namespace System.Web.Mvc.Html {
 		Value: string;
 	}
 
-	export class DropDownListFor extends SelectHelper {
-		constructor(public fieldName: string, public optionLabel: string, public allowMultiple: boolean,
-					public selectList: Collection<ISelectListItem>, public htmlAttributes: Dictionary<string, Object>) {
-			super(fieldName, optionLabel, allowMultiple, selectList, htmlAttributes);
-		}
-	}
-
 	class SelectHelper {
 
 		private tagBuilder: System.Web.Mvc.TagBuilder;
@@ -42,18 +35,25 @@ namespace System.Web.Mvc.Html {
 			return this.SetupReactElement();
 		}
 
-		private BuildItems = (): void => {
+		private BuildItems = (): string => {
 			let sb: string = "";
 			if (this.optionLabel !== undefined && this.optionLabel !== null) {
 				sb += this.ListItemToOption(null);
 			}
 
+			//group if neccessary
+			for (let i = 0; i < this.selectList.Count(); i++) {
+				let selectListItem: ISelectListItem = this.selectList.ElementAt(i);
+				sb += this.ListItemToOption(selectListItem);
+			}
+
+			return sb;
 		}
 
 		private ListItemToOption = (selectItem: ISelectListItem): string => {
 
 			let tagBuilder: System.Web.Mvc.TagBuilder = new System.Web.Mvc.TagBuilder("option");
-			tagBuilder.InnerHtml = System.Web.Mvc.HtmlUtility.HtmlEncode(selectItem.Text);
+			tagBuilder.InnerHtml = System.Web.Mvc.Html.HtmlUtility.HtmlEncode(selectItem.Text);
 			if (selectItem.Value !== undefined && selectItem.Value !== null) {
 				tagBuilder.Attributes.Add("value", selectItem.Value);
 			}
@@ -79,6 +79,9 @@ namespace System.Web.Mvc.Html {
 				this.tagBuilder.MergeAttribute("multiple", "multiple");
 			}
 
+			const innerSelect = this.BuildItems();
+			this.tagBuilder.InnerHtml = innerSelect;
+
 			return this.tagBuilder.ToString(TagRenderMode.Normal);
 		}
 
@@ -87,6 +90,13 @@ namespace System.Web.Mvc.Html {
 			return HtmlUtility.CreateReactJsElement("input", this.aspnetMvcString);
 		}
 
+	}
+
+	export class DropDownListFor extends SelectHelper {
+		constructor(public fieldName: string, public optionLabel: string, public allowMultiple: boolean,
+			public selectList: Collection<ISelectListItem>, public htmlAttributes: Dictionary<string, Object>) {
+			super(fieldName, optionLabel, allowMultiple, selectList, htmlAttributes);
+		}
 	}
 
 	interface ISelectListGroup {

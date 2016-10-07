@@ -9,6 +9,9 @@ var Collection = (function () {
             (_a = _this._items).push.apply(_a, items);
             var _a;
         };
+        this.Aggregate = function (callbackfun, initialValue) {
+            return _this._items.reduce(callbackfun, initialValue);
+        };
         this.Any = function (expression) {
             return expression === undefined ? _this._items.length > 0 : _this._items.some(expression);
         };
@@ -32,6 +35,9 @@ var Collection = (function () {
             return _this._items[index];
         };
         this.ElementAtOrDefault = function (index) {
+            if (_this.Count() == 0) {
+                return undefined;
+            }
             return _this.ElementAt(index) || undefined;
         };
         this.First = function (expression) {
@@ -102,6 +108,28 @@ var Collection = (function () {
             }
             return _this.Single(expression);
         };
+        this.Skip = function (amount) {
+            if (_this.Count() == 0) {
+                return _this.EmptyDictionary();
+            }
+            var skippedAray = _this._items.slice(Math.max(0, amount));
+            return _this.ConvertArrayToCollection(skippedAray);
+        };
+        this.SkipWhile = function (expression) {
+            var aggregated = _this.Aggregate(function (prev, current) { return expression(_this.ElementAt(prev)) ? ++prev : prev; }, 0);
+            return _this.Skip(aggregated);
+        };
+        this.Take = function (amount) {
+            if (_this.Count() == 0) {
+                return _this.EmptyDictionary();
+            }
+            var takenArray = _this._items.slice(0, Math.max(0, amount));
+            return _this.ConvertArrayToCollection(takenArray);
+        };
+        this.TakeWhile = function (expression) {
+            var aggregated = _this.Aggregate(function (prev, current) { return expression(_this.ElementAt(prev)) ? ++prev : prev; }, 0);
+            return _this.Take(aggregated);
+        };
         this.Where = function (expression) {
             var filteredArray = _this._items.filter(expression);
             return _this.ConvertArrayToCollection(filteredArray);
@@ -119,6 +147,9 @@ var Collection = (function () {
                 newList.Add(items);
             }
             return newList;
+        };
+        this.EmptyDictionary = function () {
+            return new Collection();
         };
         this.ComparerForKey = function (keySelector, descending) {
             return function (a, b) {

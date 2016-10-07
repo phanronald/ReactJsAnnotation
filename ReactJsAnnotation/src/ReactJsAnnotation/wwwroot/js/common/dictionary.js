@@ -130,6 +130,8 @@ var Dictionary = (function () {
             }
             return _this.Single(expression);
         };
+        this.Take = function (amount) {
+        };
         this.ToArray = function () {
             var dictionaryInArray = [];
             Object.keys(_this.internalArray).map(function (key, index) {

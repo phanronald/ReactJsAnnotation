@@ -127,6 +127,26 @@ class Dictionary<K, V> {
 		return valueArray;
 	}
 
+	public GroupBy = (keyToGroup: (key: IDictionaryPair<K, V>) => any): Array<IDictionaryPair<K, V>[]> => {
+
+		let groupedBy: Array<IDictionaryPair<K, V>[]> = []
+		for (let i = 0; i < this.Count(); i++) {
+			let currentItemInCollection = this.ElementAt(i);
+			let currentKey = keyToGroup(currentItemInCollection);
+			if (currentKey) {
+				let currentGroupBy = this.LookThroughGroupArray(currentKey, keyToGroup, groupedBy);
+				if (currentGroupBy === undefined) {
+					groupedBy.push([currentItemInCollection]);
+				}
+				else {
+					currentGroupBy.push(currentItemInCollection);
+				}
+			}
+		}
+
+		return groupedBy;
+	}
+
 	public Last = (expression?: (value?: IDictionaryPair<K, V>, index?: number, list?: IDictionaryPair<K, V>[]) => boolean): IDictionaryPair<K, V> => {
 		const dictionaryLengthIndex = this.Count() - 1;
 		return expression === undefined ? this.internalArray[dictionaryLengthIndex] : this.Where(expression)[dictionaryLengthIndex];
@@ -179,6 +199,24 @@ class Dictionary<K, V> {
 		return this.Single(expression);
 	}
 
+	public Skip = (amount: number): Dictionary<K, V> => {
+		if (this.Count() == 0) {
+			this.EmptyDictionary();
+		}
+
+		const skippedDictionary = this.ToArray().slice(Math.max(0, amount));
+		return this.ConvertArrayToDictionary(skippedDictionary);
+	}
+
+	public Take = (amount: number): Dictionary<K, V> => {
+		if (this.Count() == 0) {
+			return this.EmptyDictionary();
+		}
+
+		const takenDictionary = this.ToArray().slice(0, Math.max(0, amount));
+		return this.ConvertArrayToDictionary(takenDictionary);
+	}
+
 	public ToArray = (): IDictionaryPair<K, V>[] => {
 
 		let dictionaryInArray: IDictionaryPair<K, V>[] = [];
@@ -225,5 +263,22 @@ class Dictionary<K, V> {
 		let typeOfVariable:boolean = typeof (sortKeyA) == 'string';
 
 		return typeOfVariable ? sortKeyA.localeCompare(b) : sortKeyA - sortKeyB;
+	}
+
+	private EmptyDictionary = (): Dictionary<K, V> => {
+		return new Dictionary<K, V>();
+	}
+
+	private LookThroughGroupArray = (item: IDictionaryPair<K, V>,
+									keyToGroup: (key: IDictionaryPair<K, V>) => IDictionaryPair<K, V>,
+									groupedArray: Array<IDictionaryPair<K, V>[]>): IDictionaryPair<K, V>[] => {
+
+		for (let i = 0; i < groupedArray.length; i++) {
+			if (groupedArray[i].length > 0 && keyToGroup(groupedArray[i][0]) == item) {
+				return groupedArray[i];
+			}
+		}
+
+		return undefined;
 	}
 }

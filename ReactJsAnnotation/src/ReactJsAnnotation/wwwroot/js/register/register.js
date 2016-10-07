@@ -10,12 +10,26 @@ var Register = (function (_super) {
     }
     Register.prototype.render = function () {
         var dataFromServer = this.props.dataFromServer;
-        return (React.createElement("div", null, React.createElement("section", null, Object.keys(dataFromServer).map(function (key, index) {
-            var customAnnotation = dataFromServer[index];
-            var dataAnnotationModel = new DataAnnotationModel(customAnnotation);
-            var customReactElement = new System.Web.Mvc.Html.TextBoxFor(customAnnotation.fieldName, customAnnotation.fieldValue, dataAnnotationModel.GetAnnotations()).GetReactJsElement();
-            return (React.createElement("div", {className: "row", key: index}, React.createElement("div", null, React.createElement("label", {htmlFor: customAnnotation.fieldName}, customAnnotation.displayName, ": "), customReactElement)));
-        })), React.createElement("section", null, React.createElement("div", null, React.createElement("button", null, React.createElement("div", null), "submit")))));
+        return (React.createElement("div", null, 
+            React.createElement("section", null, Object.keys(dataFromServer).map(function (key, index) {
+                var customAnnotation = dataFromServer[index];
+                var dataAnnotationModel = new DataAnnotationModel(customAnnotation);
+                var customReactElement = new System.Web.Mvc.Html.TextBoxFor(customAnnotation.fieldName, customAnnotation.fieldValue, dataAnnotationModel.GetAnnotations()).GetReactJsElement();
+                return (React.createElement("div", {className: "row", key: index}, 
+                    React.createElement("div", null, 
+                        React.createElement("label", {htmlFor: customAnnotation.fieldName}, 
+                            customAnnotation.displayName, 
+                            ": "), 
+                        customReactElement)
+                ));
+            })), 
+            React.createElement("section", null, 
+                React.createElement("div", null, 
+                    React.createElement("button", null, 
+                        React.createElement("div", null), 
+                        "submit")
+                )
+            )));
     };
     return Register;
 }(React.Component));
