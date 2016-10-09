@@ -89,6 +89,23 @@ var Dictionary = (function () {
             });
             return valueArray;
         };
+        this.GroupBy = function (keyToGroup) {
+            var groupedBy = [];
+            for (var i = 0; i < _this.Count(); i++) {
+                var currentItemInCollection = _this.ElementAt(i);
+                var currentKey = keyToGroup(currentItemInCollection);
+                if (currentKey) {
+                    var currentGroupBy = _this.LookThroughGroupArray(currentKey, keyToGroup, groupedBy);
+                    if (currentGroupBy === undefined) {
+                        groupedBy.push([currentItemInCollection]);
+                    }
+                    else {
+                        currentGroupBy.push(currentItemInCollection);
+                    }
+                }
+            }
+            return groupedBy;
+        };
         this.Last = function (expression) {
             var dictionaryLengthIndex = _this.Count() - 1;
             return expression === undefined ? _this.internalArray[dictionaryLengthIndex] : _this.Where(expression)[dictionaryLengthIndex];
@@ -130,7 +147,19 @@ var Dictionary = (function () {
             }
             return _this.Single(expression);
         };
+        this.Skip = function (amount) {
+            if (_this.Count() == 0) {
+                _this.EmptyDictionary();
+            }
+            var skippedDictionary = _this.ToArray().slice(Math.max(0, amount));
+            return _this.ConvertArrayToDictionary(skippedDictionary);
+        };
         this.Take = function (amount) {
+            if (_this.Count() == 0) {
+                return _this.EmptyDictionary();
+            }
+            var takenDictionary = _this.ToArray().slice(0, Math.max(0, amount));
+            return _this.ConvertArrayToDictionary(takenDictionary);
         };
         this.ToArray = function () {
             var dictionaryInArray = [];
@@ -165,6 +194,17 @@ var Dictionary = (function () {
             var sortKeyB = keySelector(b);
             var typeOfVariable = typeof (sortKeyA) == 'string';
             return typeOfVariable ? sortKeyA.localeCompare(b) : sortKeyA - sortKeyB;
+        };
+        this.EmptyDictionary = function () {
+            return new Dictionary();
+        };
+        this.LookThroughGroupArray = function (item, keyToGroup, groupedArray) {
+            for (var i = 0; i < groupedArray.length; i++) {
+                if (groupedArray[i].length > 0 && keyToGroup(groupedArray[i][0]) == item) {
+                    return groupedArray[i];
+                }
+            }
+            return undefined;
         };
     }
     return Dictionary;

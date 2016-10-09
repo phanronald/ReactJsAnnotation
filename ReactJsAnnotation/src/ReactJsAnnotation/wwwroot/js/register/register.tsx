@@ -7,12 +7,16 @@
 /// <reference path="../typings/interface.d.ts" />
 /// <reference path="../typings/dataannotation.d.ts" />
 /// <reference path="dataannotationmodel.ts" />
+/// <reference path="../models/vmregister.ts" />
 
 
 class Register extends React.Component<ICustomDataAnnotationModel, any> {
 	render() {
 
 		var { dataFromServer } = this.props;
+
+		var test = new vmRegister();
+		var first = test.FirstName;
 
 		return (
 

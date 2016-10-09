@@ -10,6 +10,8 @@ var Register = (function (_super) {
     }
     Register.prototype.render = function () {
         var dataFromServer = this.props.dataFromServer;
+        var test = new vmRegister();
+        var first = test.FirstName;
         return (React.createElement("div", null, 
             React.createElement("section", null, Object.keys(dataFromServer).map(function (key, index) {
                 var customAnnotation = dataFromServer[index];

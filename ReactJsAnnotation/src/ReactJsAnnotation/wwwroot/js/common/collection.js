@@ -50,6 +50,23 @@ var Collection = (function () {
             var firstWithExpression = _this.First(expression);
             return (firstWithExpression === undefined ? undefined : firstWithExpression);
         };
+        this.GroupBy = function (keyToGroup) {
+            var groupedBy = [];
+            for (var i = 0; i < _this.Count(); i++) {
+                var currentItemInCollection = _this.ElementAt(i);
+                var currentKey = keyToGroup(currentItemInCollection);
+                if (currentKey) {
+                    var currentGroupBy = _this.LookThroughGroupArray(currentKey, keyToGroup, groupedBy);
+                    if (currentGroupBy === undefined) {
+                        groupedBy.push([currentItemInCollection]);
+                    }
+                    else {
+                        currentGroupBy.push(currentItemInCollection);
+                    }
+                }
+            }
+            return groupedBy;
+        };
         this.IndexOfItem = function (obj, fromIndex) {
             if (fromIndex == null) {
                 fromIndex = 0;
@@ -110,10 +127,10 @@ var Collection = (function () {
         };
         this.Skip = function (amount) {
             if (_this.Count() == 0) {
-                return _this.EmptyDictionary();
+                return _this.EmptyCollection();
             }
-            var skippedAray = _this._items.slice(Math.max(0, amount));
-            return _this.ConvertArrayToCollection(skippedAray);
+            var skippedArray = _this._items.slice(Math.max(0, amount));
+            return _this.ConvertArrayToCollection(skippedArray);
         };
         this.SkipWhile = function (expression) {
             var aggregated = _this.Aggregate(function (prev, current) { return expression(_this.ElementAt(prev)) ? ++prev : prev; }, 0);
@@ -121,7 +138,7 @@ var Collection = (function () {
         };
         this.Take = function (amount) {
             if (_this.Count() == 0) {
-                return _this.EmptyDictionary();
+                return _this.EmptyCollection();
             }
             var takenArray = _this._items.slice(0, Math.max(0, amount));
             return _this.ConvertArrayToCollection(takenArray);
@@ -148,7 +165,7 @@ var Collection = (function () {
             }
             return newList;
         };
-        this.EmptyDictionary = function () {
+        this.EmptyCollection = function () {
             return new Collection();
         };
         this.ComparerForKey = function (keySelector, descending) {
@@ -166,6 +183,14 @@ var Collection = (function () {
                 return (!descending ? -1 : 1);
             }
             return 0;
+        };
+        this.LookThroughGroupArray = function (item, keyToGroup, groupedArray) {
+            for (var i = 0; i < groupedArray.length; i++) {
+                if (groupedArray[i].length > 0 && keyToGroup(groupedArray[i][0]) == item) {
+                    return groupedArray[i];
+                }
+            }
+            return undefined;
         };
     }
     return Collection;
