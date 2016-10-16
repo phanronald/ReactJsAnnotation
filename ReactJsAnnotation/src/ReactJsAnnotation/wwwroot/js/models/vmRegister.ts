@@ -5,7 +5,7 @@ import annotation = System.ComponentModel.DataAnnotations
 class vmRegister {
 
 	@annotation.required("I AM ERROR")
-	public FirstName: string = "";
+	public FirstName: string = "Test";
 
 	public LastName: string = "";
 	public Email: string = "";

@@ -61,8 +61,8 @@ class Dictionary<K, V> {
 	}
 
 
-	public ElementAt = (index: number): IDictionaryPair<K, V> => {
-		const kvPair: IDictionaryPair<K, V> = this.internalArray[index];
+	public ElementAt = (key: K): IDictionaryPair<K, V> => {
+		const kvPair: IDictionaryPair<K, V> = this.internalArray[String(key)];
 		if (typeof (kvPair) === 'undefined') {
 			return undefined;
 		}
@@ -70,8 +70,8 @@ class Dictionary<K, V> {
 		return kvPair;
 	}
 
-	public ElementAtOrDefault = (index: number): IDictionaryPair<K, V> => {
-		return this.ElementAt(index) || undefined;
+	public ElementAtOrDefault = (key: K): IDictionaryPair<K, V> => {
+		return this.ElementAt(key) || undefined;
 	}
 
 	public First = (expression?: (value?: IDictionaryPair<K, V>, index?: number, list?: IDictionaryPair<K, V>[]) => boolean): IDictionaryPair<K, V> => {
@@ -88,7 +88,7 @@ class Dictionary<K, V> {
 	}
 
 	public GetKeys = (): K[] => {
-		let keyArray: K[];
+		let keyArray: K[] = [];
 
 		Object.keys(this.internalArray).map((key, index) => {
 
@@ -115,7 +115,7 @@ class Dictionary<K, V> {
 
 	public GetValues = (): V[] => {
 
-		let valueArray: V[];
+		let valueArray: V[] = [];
 
 		Object.keys(this.internalArray).map((key, index) => {
 
@@ -130,19 +130,19 @@ class Dictionary<K, V> {
 	public GroupBy = (keyToGroup: (key: IDictionaryPair<K, V>) => any): Array<IDictionaryPair<K, V>[]> => {
 
 		let groupedBy: Array<IDictionaryPair<K, V>[]> = []
-		for (let i = 0; i < this.Count(); i++) {
-			let currentItemInCollection = this.ElementAt(i);
-			let currentKey = keyToGroup(currentItemInCollection);
-			if (currentKey) {
-				let currentGroupBy = this.LookThroughGroupArray(currentKey, keyToGroup, groupedBy);
-				if (currentGroupBy === undefined) {
-					groupedBy.push([currentItemInCollection]);
-				}
-				else {
-					currentGroupBy.push(currentItemInCollection);
-				}
-			}
-		}
+		//for (let i = 0; i < this.Count(); i++) {
+		//	let currentItemInCollection = this.ElementAt(i);
+		//	let currentKey = keyToGroup(currentItemInCollection);
+		//	if (currentKey) {
+		//		let currentGroupBy = this.LookThroughGroupArray(currentKey, keyToGroup, groupedBy);
+		//		if (currentGroupBy === undefined) {
+		//			groupedBy.push([currentItemInCollection]);
+		//		}
+		//		else {
+		//			currentGroupBy.push(currentItemInCollection);
+		//		}
+		//	}
+		//}
 
 		return groupedBy;
 	}

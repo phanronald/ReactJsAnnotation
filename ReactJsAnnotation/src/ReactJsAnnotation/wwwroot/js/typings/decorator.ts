@@ -1,11 +1,17 @@
-﻿/// <reference path="../common/models/dataannotations.ts" />
+﻿/// <reference path="dataannotation.d.ts" />
+/// <reference path="../common/models/dataannotations.ts" />
+/// <reference path="../common/dictionary.ts" />
 
 namespace System.ComponentModel.DataAnnotations {
+
+	export var GenericDataAnnotation: Dictionary<string, GenericDataAnnotation> = new Dictionary<string, GenericDataAnnotation>();
+
 	export function required(errorMessage?: string) {
 
-		function requiredDecorator(target: any, key: string ): void {
+		function requiredDecorator(target: any, key: string): void {
+			target.constructor();
 			// property value
-			let currentPropertyValue = this[key];
+			let currentPropertyValue = target[key];
 			let requiredDataAnnotation = new RequiredDataAnnotation(key, currentPropertyValue, errorMessage);
 
 			// property getter
@@ -17,7 +23,8 @@ namespace System.ComponentModel.DataAnnotations {
 			// property setter
 			var setter = function (newVal) {
 				console.log(`Set: ${key} => ${newVal}`);
-				requiredDataAnnotation.DataValueAttribute = newVal;
+				
+				GenericDataAnnotation.Add(key, requiredDataAnnotation);
 				currentPropertyValue = newVal;
 			};
 
@@ -63,4 +70,34 @@ function logClass(target: any) {
 
 	// return new constructor (will override original)
 	return f;
+}
+
+function logProperty(target: any, key: string) {
+
+	// property value
+	var _val = this[key];
+
+	// property getter
+	var getter = function () {
+		console.log(`Get: ${key} => ${_val}`);
+		return _val;
+	};
+
+	// property setter
+	var setter = function (newVal) {
+		console.log(`Set: ${key} => ${newVal}`);
+		_val = newVal;
+	};
+
+	// Delete property.
+	if (delete this[key]) {
+
+		// Create new property with getter and setter
+		Object.defineProperty(target, key, {
+			get: getter,
+			set: setter,
+			enumerable: true,
+			configurable: true
+		});
+	}
 }

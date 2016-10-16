@@ -4,9 +4,11 @@ var System;
     (function (ComponentModel) {
         var DataAnnotations;
         (function (DataAnnotations) {
+            DataAnnotations.GenericDataAnnotation = new Dictionary();
             function required(errorMessage) {
                 function requiredDecorator(target, key) {
-                    var currentPropertyValue = this[key];
+                    target.constructor();
+                    var currentPropertyValue = target[key];
                     var requiredDataAnnotation = new RequiredDataAnnotation(key, currentPropertyValue, errorMessage);
                     var getter = function () {
                         console.log("Get: " + key + " => " + currentPropertyValue);
@@ -14,7 +16,7 @@ var System;
                     };
                     var setter = function (newVal) {
                         console.log("Set: " + key + " => " + newVal);
-                        requiredDataAnnotation.DataValueAttribute = newVal;
+                        DataAnnotations.GenericDataAnnotation.Add(key, requiredDataAnnotation);
                         currentPropertyValue = newVal;
                     };
                     if (delete this[key]) {
@@ -51,4 +53,23 @@ function logClass(target) {
     };
     f.prototype = original.prototype;
     return f;
+}
+function logProperty(target, key) {
+    var _val = this[key];
+    var getter = function () {
+        console.log("Get: " + key + " => " + _val);
+        return _val;
+    };
+    var setter = function (newVal) {
+        console.log("Set: " + key + " => " + newVal);
+        _val = newVal;
+    };
+    if (delete this[key]) {
+        Object.defineProperty(target, key, {
+            get: getter,
+            set: setter,
+            enumerable: true,
+            configurable: true
+        });
+    }
 }

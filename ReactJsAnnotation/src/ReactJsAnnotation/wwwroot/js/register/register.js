@@ -9,20 +9,21 @@ var Register = (function (_super) {
         _super.apply(this, arguments);
     }
     Register.prototype.render = function () {
-        var dataFromServer = this.props.dataFromServer;
-        var test = new vmRegister();
-        var first = test.FirstName;
+        var registerModel = new vmRegister();
+        registerModel.FirstName = "First";
+        registerModel.LastName = "last";
+        registerModel.CreditCard = 4111111111111111;
+        var textboxFor = [];
+        for (var property in registerModel) {
+            var valuesForProperty = System.ComponentModel.DataAnnotations.GenericDataAnnotation.Where(function (x) { return x.key == property; });
+            var currentPropertyHtml = new System.Web.Mvc.Html.TextBoxFor(property, function (propertyName) { return registerModel[propertyName]; }).GetHtml();
+            textboxFor.push(currentPropertyHtml);
+        }
         return (React.createElement("div", null, 
-            React.createElement("section", null, Object.keys(dataFromServer).map(function (key, index) {
-                var customAnnotation = dataFromServer[index];
-                var dataAnnotationModel = new DataAnnotationModel(customAnnotation);
-                var customReactElement = new System.Web.Mvc.Html.TextBoxFor(customAnnotation.fieldName, customAnnotation.fieldValue, dataAnnotationModel.GetAnnotations()).GetReactJsElement();
+            React.createElement("section", null, Object.keys(textboxFor).map(function (key, index) {
+                var textboxRegister = textboxFor[index];
                 return (React.createElement("div", {className: "row", key: index}, 
-                    React.createElement("div", null, 
-                        React.createElement("label", {htmlFor: customAnnotation.fieldName}, 
-                            customAnnotation.displayName, 
-                            ": "), 
-                        customReactElement)
+                    React.createElement("div", null, textboxRegister)
                 ));
             })), 
             React.createElement("section", null, 
@@ -35,5 +36,4 @@ var Register = (function (_super) {
     };
     return Register;
 }(React.Component));
-var regModel = new DataFromServerModel(registerModel);
-ReactDOM.render(React.createElement(Register, {dataFromServer: regModel.dataFromServer}), document.getElementById('container'));
+ReactDOM.render(React.createElement(Register, null), document.getElementById('container'));

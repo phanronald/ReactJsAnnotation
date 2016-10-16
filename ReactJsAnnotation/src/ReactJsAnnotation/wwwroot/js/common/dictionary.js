@@ -43,15 +43,15 @@ var Dictionary = (function () {
         this.Distinct = function () {
             return _this.Where(function (value, index, iter) { return iter.indexOf(value) === index; });
         };
-        this.ElementAt = function (index) {
-            var kvPair = _this.internalArray[index];
+        this.ElementAt = function (key) {
+            var kvPair = _this.internalArray[String(key)];
             if (typeof (kvPair) === 'undefined') {
                 return undefined;
             }
             return kvPair;
         };
-        this.ElementAtOrDefault = function (index) {
-            return _this.ElementAt(index) || undefined;
+        this.ElementAtOrDefault = function (key) {
+            return _this.ElementAt(key) || undefined;
         };
         this.First = function (expression) {
             return expression === undefined ? _this.internalArray[0] : _this.Where(expression)[0];
@@ -64,7 +64,7 @@ var Dictionary = (function () {
             return (firstKVPair === undefined ? undefined : firstKVPair);
         };
         this.GetKeys = function () {
-            var keyArray;
+            var keyArray = [];
             Object.keys(_this.internalArray).map(function (key, index) {
                 var kvPair = _this.internalArray[String(key)];
                 keyArray.push(kvPair.key);
@@ -82,7 +82,7 @@ var Dictionary = (function () {
             return kvPair.value;
         };
         this.GetValues = function () {
-            var valueArray;
+            var valueArray = [];
             Object.keys(_this.internalArray).map(function (key, index) {
                 var kvPair = _this.internalArray[String(key)];
                 valueArray.push(kvPair.value);
@@ -91,19 +91,6 @@ var Dictionary = (function () {
         };
         this.GroupBy = function (keyToGroup) {
             var groupedBy = [];
-            for (var i = 0; i < _this.Count(); i++) {
-                var currentItemInCollection = _this.ElementAt(i);
-                var currentKey = keyToGroup(currentItemInCollection);
-                if (currentKey) {
-                    var currentGroupBy = _this.LookThroughGroupArray(currentKey, keyToGroup, groupedBy);
-                    if (currentGroupBy === undefined) {
-                        groupedBy.push([currentItemInCollection]);
-                    }
-                    else {
-                        currentGroupBy.push(currentItemInCollection);
-                    }
-                }
-            }
             return groupedBy;
         };
         this.Last = function (expression) {

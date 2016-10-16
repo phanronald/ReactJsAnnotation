@@ -14,15 +14,11 @@ namespace System.Web.Mvc.Html {
 		private aspnetMvcString: string;
 
 		constructor(public inputType: InputType, public fieldName: string, public value: Object,
-					public htmlAttributes: Dictionary<string, Object>) {
+			public htmlAttributes: Dictionary<string, Object>) {
 
 			this.tagBuilder = new System.Web.Mvc.TagBuilder("input");
 			this.inputValue = (value !== undefined && value !== null) ? value.toString() : "";
 			this.aspnetMvcString = this.SetupInput();
-		}
-
-		public GetHtmlString = (): string => {
-			return this.aspnetMvcString;
 		}
 
 		public GetReactJsElement = (): React.DOMElement<{}, Element> => {
@@ -72,7 +68,7 @@ namespace System.Web.Mvc.Html {
 						}
 					}
 				}
-				
+
 				case InputType.Password:
 				case InputType.Hidden:
 				case InputType.Radio:
@@ -92,33 +88,39 @@ namespace System.Web.Mvc.Html {
 		}
 	}
 
-	export class CheckBoxFor extends InputHelper {
-		constructor(public fieldName: string, public value: Object, public htmlAttributes: Dictionary<string, Object>) {
-			super(InputType.CheckBox, fieldName, value, htmlAttributes);
-		}
+	interface IInputElement {
+		property: string;
+		propertyValue: Object;
+		collectionOfAnnotations: Dictionary<string, Object>;
 	}
 
-	export class HiddenFor extends InputHelper {
-		constructor(public fieldName: string, public value: Object, public htmlAttributes: Dictionary<string, Object>) {
-			super(InputType.Hidden, fieldName, value, htmlAttributes);
-		}
-	}
+	export class TextBoxFor implements IInputElement {
 
-	export class PasswordFor extends InputHelper {
-		constructor(public fieldName: string, public value: Object, public htmlAttributes: Dictionary<string, Object>) {
-			super(InputType.Password, fieldName, value, htmlAttributes);
-		}
-	}
+		collectionOfAnnotations: Dictionary<string, Object> = new Dictionary<string, Object>();
+		property: string;
+		propertyValue: Object;
 
-	export class RadioButtonFor extends InputHelper {
-		constructor(public fieldName: string, public value: Object, public htmlAttributes: Dictionary<string, Object>) {
-			super(InputType.Radio, fieldName, value, htmlAttributes);
-		}
-	}
+		constructor(property: string, keySelector: (key: string) => any) {
+			this.property = property;
+			this.propertyValue = keySelector(property);
+			if (System.ComponentModel.DataAnnotations.GenericDataAnnotation.Count() > 0) {
+				const allDataAnnotationForProperty = System.ComponentModel.DataAnnotations.GenericDataAnnotation.Where(x => x.key == property);
+				if (allDataAnnotationForProperty.Count() > 0) {
 
-	export class TextBoxFor extends InputHelper {
-		constructor(public fieldName: string, public value: Object, public htmlAttributes: Dictionary<string, Object>) {
-			super(InputType.Text, fieldName, value, htmlAttributes);
+					const allDataAnnotations = allDataAnnotationForProperty.GetValues();
+
+					for (let i = 0; i < allDataAnnotations.length; i++) {
+						const dataAnnotationDictionary = allDataAnnotations[i];
+						if (dataAnnotationDictionary !== undefined) {
+							this.collectionOfAnnotations.AddRange(dataAnnotationDictionary.DataValueAttribute.ToArray());
+						}
+					}
+				}
+			}
+		}
+
+		public GetHtml(): React.DOMElement<{}, Element> {
+			return new InputHelper(InputType.Text, this.property, this.propertyValue, this.collectionOfAnnotations).GetReactJsElement();
 		}
 	}
 }

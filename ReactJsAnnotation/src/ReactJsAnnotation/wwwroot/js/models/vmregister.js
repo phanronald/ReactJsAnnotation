@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var annotation = System.ComponentModel.DataAnnotations;
 var vmRegister = (function () {
     function vmRegister() {
-        this.FirstName = "";
+        this.FirstName = "Test";
         this.LastName = "";
         this.Email = "";
         this.Phone = 0;

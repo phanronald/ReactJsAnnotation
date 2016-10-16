@@ -10,36 +10,45 @@
 /// <reference path="../models/vmregister.ts" />
 
 
-class Register extends React.Component<ICustomDataAnnotationModel, any> {
+//class Register extends React.Component<ICustomDataAnnotationModel, any> {
+class Register extends React.Component<any, any> {
 	render() {
 
-		var { dataFromServer } = this.props;
+		//var { dataFromServer } = this.props;
 
-		var test = new vmRegister();
-		var first = test.FirstName;
+		var registerModel = new vmRegister();
+		registerModel.FirstName = "First";
+		registerModel.LastName = "last";
+		registerModel.CreditCard = 4111111111111111;
+
+
+		var textboxFor = [];
+
+		for (var property in registerModel) {
+			let valuesForProperty = System.ComponentModel.DataAnnotations.GenericDataAnnotation.Where(x => x.key == property);
+			const currentPropertyHtml = new System.Web.Mvc.Html.TextBoxFor(property, (propertyName: string) => registerModel[propertyName]).GetHtml();
+			textboxFor.push(currentPropertyHtml);
+		}
 
 		return (
 
 			<div>
 				<section>
-
 					{
-						Object.keys(dataFromServer).map((key, index) => {
-							const customAnnotation = dataFromServer[index];
-							const dataAnnotationModel = new DataAnnotationModel(customAnnotation);
-							var customReactElement = new System.Web.Mvc.Html.TextBoxFor(customAnnotation.fieldName, customAnnotation.fieldValue, dataAnnotationModel.GetAnnotations()).GetReactJsElement();
+						Object.keys(textboxFor).map((key, index) => {
+							const textboxRegister = textboxFor[index];
 
 							return (
 								<div className="row" key={index}>
 									<div>
-										<label htmlFor={customAnnotation.fieldName}>{customAnnotation.displayName}: </label>
-										{customReactElement}
+										{textboxRegister}
 									</div>
 								</div>
 							)
-							
+
 						})
 					}
+					
 				</section>
 				<section>
 					<div>
@@ -52,6 +61,7 @@ class Register extends React.Component<ICustomDataAnnotationModel, any> {
 	}
 }
 
-declare var registerModel: any;
-var regModel = new DataFromServerModel(registerModel);
-ReactDOM.render(<Register dataFromServer={regModel.dataFromServer} />, document.getElementById('container'));
+//declare var registerModel: any;
+//var regModel = new DataFromServerModel(registerModel);
+//ReactDOM.render(<Register dataFromServer={regModel.dataFromServer} />, document.getElementById('container'));
+ReactDOM.render(<Register />, document.getElementById('container'));

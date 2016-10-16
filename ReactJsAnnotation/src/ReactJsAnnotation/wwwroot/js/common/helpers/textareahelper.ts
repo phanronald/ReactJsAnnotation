@@ -5,12 +5,6 @@
 
 namespace System.Web.Mvc.Html {
 
-	export class TextAreaFor extends TextAreaHelper {
-		constructor(public fieldName: string, public value: Object, public htmlAttributes: Dictionary<string, Object>) {
-			super(fieldName, value, htmlAttributes);
-		}
-	}
-
 	class TextAreaHelper {
 
 		private tagBuilder: System.Web.Mvc.TagBuilder;
@@ -47,6 +41,12 @@ namespace System.Web.Mvc.Html {
 		private SetupReactElement = (): React.DOMElement<{}, Element> => {
 
 			return HtmlUtility.CreateReactJsElement("input", this.aspnetMvcString);
+		}
+	}
+
+	export class TextAreaFor extends TextAreaHelper {
+		constructor(public fieldName: string, public value: Object, public htmlAttributes: Dictionary<string, Object>) {
+			super(fieldName, value, htmlAttributes);
 		}
 	}
 }

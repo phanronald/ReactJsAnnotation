@@ -1,8 +1,3 @@
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
 var System;
 (function (System) {
     var Web;
@@ -18,9 +13,6 @@ var System;
                         this.fieldName = fieldName;
                         this.value = value;
                         this.htmlAttributes = htmlAttributes;
-                        this.GetHtmlString = function () {
-                            return _this.aspnetMvcString;
-                        };
                         this.GetReactJsElement = function () {
                             return _this.SetupReactElement();
                         };
@@ -86,60 +78,29 @@ var System;
                     }
                     return InputHelper;
                 }());
-                var CheckBoxFor = (function (_super) {
-                    __extends(CheckBoxFor, _super);
-                    function CheckBoxFor(fieldName, value, htmlAttributes) {
-                        _super.call(this, InputType.CheckBox, fieldName, value, htmlAttributes);
-                        this.fieldName = fieldName;
-                        this.value = value;
-                        this.htmlAttributes = htmlAttributes;
+                var TextBoxFor = (function () {
+                    function TextBoxFor(property, keySelector) {
+                        this.collectionOfAnnotations = new Dictionary();
+                        this.property = property;
+                        this.propertyValue = keySelector(property);
+                        if (System.ComponentModel.DataAnnotations.GenericDataAnnotation.Count() > 0) {
+                            var allDataAnnotationForProperty = System.ComponentModel.DataAnnotations.GenericDataAnnotation.Where(function (x) { return x.key == property; });
+                            if (allDataAnnotationForProperty.Count() > 0) {
+                                var allDataAnnotations = allDataAnnotationForProperty.GetValues();
+                                for (var i = 0; i < allDataAnnotations.length; i++) {
+                                    var dataAnnotationDictionary = allDataAnnotations[i];
+                                    if (dataAnnotationDictionary !== undefined) {
+                                        this.collectionOfAnnotations.AddRange(dataAnnotationDictionary.DataValueAttribute.ToArray());
+                                    }
+                                }
+                            }
+                        }
                     }
-                    return CheckBoxFor;
-                }(InputHelper));
-                Html.CheckBoxFor = CheckBoxFor;
-                var HiddenFor = (function (_super) {
-                    __extends(HiddenFor, _super);
-                    function HiddenFor(fieldName, value, htmlAttributes) {
-                        _super.call(this, InputType.Hidden, fieldName, value, htmlAttributes);
-                        this.fieldName = fieldName;
-                        this.value = value;
-                        this.htmlAttributes = htmlAttributes;
-                    }
-                    return HiddenFor;
-                }(InputHelper));
-                Html.HiddenFor = HiddenFor;
-                var PasswordFor = (function (_super) {
-                    __extends(PasswordFor, _super);
-                    function PasswordFor(fieldName, value, htmlAttributes) {
-                        _super.call(this, InputType.Password, fieldName, value, htmlAttributes);
-                        this.fieldName = fieldName;
-                        this.value = value;
-                        this.htmlAttributes = htmlAttributes;
-                    }
-                    return PasswordFor;
-                }(InputHelper));
-                Html.PasswordFor = PasswordFor;
-                var RadioButtonFor = (function (_super) {
-                    __extends(RadioButtonFor, _super);
-                    function RadioButtonFor(fieldName, value, htmlAttributes) {
-                        _super.call(this, InputType.Radio, fieldName, value, htmlAttributes);
-                        this.fieldName = fieldName;
-                        this.value = value;
-                        this.htmlAttributes = htmlAttributes;
-                    }
-                    return RadioButtonFor;
-                }(InputHelper));
-                Html.RadioButtonFor = RadioButtonFor;
-                var TextBoxFor = (function (_super) {
-                    __extends(TextBoxFor, _super);
-                    function TextBoxFor(fieldName, value, htmlAttributes) {
-                        _super.call(this, InputType.Text, fieldName, value, htmlAttributes);
-                        this.fieldName = fieldName;
-                        this.value = value;
-                        this.htmlAttributes = htmlAttributes;
-                    }
+                    TextBoxFor.prototype.GetHtml = function () {
+                        return new InputHelper(InputType.Text, this.property, this.propertyValue, this.collectionOfAnnotations).GetReactJsElement();
+                    };
                     return TextBoxFor;
-                }(InputHelper));
+                }());
                 Html.TextBoxFor = TextBoxFor;
             })(Html = Mvc.Html || (Mvc.Html = {}));
         })(Mvc = Web.Mvc || (Web.Mvc = {}));
