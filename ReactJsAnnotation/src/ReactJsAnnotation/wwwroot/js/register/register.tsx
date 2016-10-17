@@ -25,7 +25,7 @@ class Register extends React.Component<any, any> {
 		var textboxFor = [];
 
 		for (var property in registerModel) {
-			let valuesForProperty = System.ComponentModel.DataAnnotations.GenericDataAnnotation.Where(x => x.key == property);
+			let valuesForProperty = System.ComponentModel.DataAnnotations.GenericDataAnnotation.Where(x => x.key[0] == property);
 			const currentPropertyHtml = new System.Web.Mvc.Html.TextBoxFor(property, (propertyName: string) => registerModel[propertyName]).GetHtml();
 			textboxFor.push(currentPropertyHtml);
 		}

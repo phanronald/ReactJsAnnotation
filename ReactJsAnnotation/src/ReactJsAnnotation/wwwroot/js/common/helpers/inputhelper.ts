@@ -88,23 +88,16 @@ namespace System.Web.Mvc.Html {
 		}
 	}
 
-	interface IInputElement {
-		property: string;
-		propertyValue: Object;
-		collectionOfAnnotations: Dictionary<string, Object>;
-	}
-
-	export class TextBoxFor implements IInputElement {
-
-		collectionOfAnnotations: Dictionary<string, Object> = new Dictionary<string, Object>();
-		property: string;
-		propertyValue: Object;
+	class InputElementHelper {
+		protected property: string;
+		protected propertyValue: Object;
+		protected collectionOfAnnotations: Dictionary<string, Object>;
 
 		constructor(property: string, keySelector: (key: string) => any) {
 			this.property = property;
 			this.propertyValue = keySelector(property);
 			if (System.ComponentModel.DataAnnotations.GenericDataAnnotation.Count() > 0) {
-				const allDataAnnotationForProperty = System.ComponentModel.DataAnnotations.GenericDataAnnotation.Where(x => x.key == property);
+				const allDataAnnotationForProperty = System.ComponentModel.DataAnnotations.GenericDataAnnotation.Where(x => x.key[0] == property);
 				if (allDataAnnotationForProperty.Count() > 0) {
 
 					const allDataAnnotations = allDataAnnotationForProperty.GetValues();
@@ -117,6 +110,57 @@ namespace System.Web.Mvc.Html {
 					}
 				}
 			}
+		}
+	}
+
+	export class CheckBoxFor extends InputElementHelper {
+
+		constructor(property: string, keySelector: (key: string) => any) {
+			super(property, keySelector);
+		}
+
+		public GetHtml(): React.DOMElement<{}, Element> {
+			return new InputHelper(InputType.CheckBox, this.property, this.propertyValue, this.collectionOfAnnotations).GetReactJsElement();
+		}
+	}
+
+	export class HiddenFor extends InputElementHelper {
+
+		constructor(property: string, keySelector: (key: string) => any) {
+			super(property, keySelector);
+		}
+
+		public GetHtml(): React.DOMElement<{}, Element> {
+			return new InputHelper(InputType.Hidden, this.property, this.propertyValue, this.collectionOfAnnotations).GetReactJsElement();
+		}
+	}
+
+	export class PasswordFor extends InputElementHelper {
+
+		constructor(property: string, keySelector: (key: string) => any) {
+			super(property, keySelector);
+		}
+
+		public GetHtml(): React.DOMElement<{}, Element> {
+			return new InputHelper(InputType.Password, this.property, this.propertyValue, this.collectionOfAnnotations).GetReactJsElement();
+		}
+	}
+
+	export class RadioButtonFor extends InputElementHelper {
+
+		constructor(property: string, keySelector: (key: string) => any) {
+			super(property, keySelector);
+		}
+
+		public GetHtml(): React.DOMElement<{}, Element> {
+			return new InputHelper(InputType.Radio, this.property, this.propertyValue, this.collectionOfAnnotations).GetReactJsElement();
+		}
+	}
+
+	export class TextBoxFor extends InputElementHelper {
+
+		constructor(property: string, keySelector: (key: string) => any) {
+			super(property, keySelector);
 		}
 
 		public GetHtml(): React.DOMElement<{}, Element> {

@@ -84,7 +84,7 @@ var System;
                         this.property = property;
                         this.propertyValue = keySelector(property);
                         if (System.ComponentModel.DataAnnotations.GenericDataAnnotation.Count() > 0) {
-                            var allDataAnnotationForProperty = System.ComponentModel.DataAnnotations.GenericDataAnnotation.Where(function (x) { return x.key == property; });
+                            var allDataAnnotationForProperty = System.ComponentModel.DataAnnotations.GenericDataAnnotation.Where(function (x) { return x.key[0] == property; });
                             if (allDataAnnotationForProperty.Count() > 0) {
                                 var allDataAnnotations = allDataAnnotationForProperty.GetValues();
                                 for (var i = 0; i < allDataAnnotations.length; i++) {
