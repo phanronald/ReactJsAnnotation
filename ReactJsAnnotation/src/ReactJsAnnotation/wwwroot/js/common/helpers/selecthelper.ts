@@ -24,7 +24,7 @@ namespace System.Web.Mvc.Html {
 					public selectList: Collection<ISelectListItem>, public htmlAttributes: Dictionary<string, Object>) {
 
 			this.tagBuilder = new System.Web.Mvc.TagBuilder("select");
-			this.aspnetMvcString = this.SetupInput();
+			this.aspnetMvcString = this.SetupSelect();
 		}
 
 		public GetHtmlString = (): string => {
@@ -69,7 +69,7 @@ namespace System.Web.Mvc.Html {
 			return tagBuilder.ToString(TagRenderMode.Normal);
 		}
 
-		private SetupInput = (): string => {
+		private SetupSelect = (): string => {
 
 			this.tagBuilder.MergeAttributes(this.htmlAttributes, false);
 			this.tagBuilder.GenerateId(this.fieldName);
@@ -87,7 +87,7 @@ namespace System.Web.Mvc.Html {
 
 		private SetupReactElement = (): React.DOMElement<{}, Element> => {
 
-			return HtmlUtility.CreateReactJsElement("input", this.aspnetMvcString);
+			return HtmlUtility.CreateReactJsElement("select", this.aspnetMvcString);
 		}
 
 	}

@@ -9,7 +9,6 @@
 /// <reference path="js/common/models/dataannotations.js" />
 /// <reference path="js/main.js" />
 /// <reference path="js/models/vmregister.js" />
-/// <reference path="js/register/dataannotationmodel.js" />
 /// <reference path="js/requirejs/require.js" />
 /// <reference path="js/typings/decorator.js" />
 /// <reference path="lib/bootstrap/dist/js/bootstrap.js" />

@@ -91,7 +91,7 @@ namespace System.Web.Mvc.Html {
 	class InputElementHelper {
 		protected property: string;
 		protected propertyValue: Object;
-		protected collectionOfAnnotations: Dictionary<string, Object>;
+		protected collectionOfAnnotations: Dictionary<string, Object> = new Dictionary<string, Object>();
 
 		constructor(property: string, keySelector: (key: string) => any) {
 			this.property = property;

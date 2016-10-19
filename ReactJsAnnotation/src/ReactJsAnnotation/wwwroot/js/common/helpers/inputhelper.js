@@ -1,3 +1,8 @@
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var System;
 (function (System) {
     var Web;
@@ -78,8 +83,8 @@ var System;
                     }
                     return InputHelper;
                 }());
-                var TextBoxFor = (function () {
-                    function TextBoxFor(property, keySelector) {
+                var InputElementHelper = (function () {
+                    function InputElementHelper(property, keySelector) {
                         this.collectionOfAnnotations = new Dictionary();
                         this.property = property;
                         this.propertyValue = keySelector(property);
@@ -96,11 +101,62 @@ var System;
                             }
                         }
                     }
+                    return InputElementHelper;
+                }());
+                var CheckBoxFor = (function (_super) {
+                    __extends(CheckBoxFor, _super);
+                    function CheckBoxFor(property, keySelector) {
+                        _super.call(this, property, keySelector);
+                    }
+                    CheckBoxFor.prototype.GetHtml = function () {
+                        return new InputHelper(InputType.CheckBox, this.property, this.propertyValue, this.collectionOfAnnotations).GetReactJsElement();
+                    };
+                    return CheckBoxFor;
+                }(InputElementHelper));
+                Html.CheckBoxFor = CheckBoxFor;
+                var HiddenFor = (function (_super) {
+                    __extends(HiddenFor, _super);
+                    function HiddenFor(property, keySelector) {
+                        _super.call(this, property, keySelector);
+                    }
+                    HiddenFor.prototype.GetHtml = function () {
+                        return new InputHelper(InputType.Hidden, this.property, this.propertyValue, this.collectionOfAnnotations).GetReactJsElement();
+                    };
+                    return HiddenFor;
+                }(InputElementHelper));
+                Html.HiddenFor = HiddenFor;
+                var PasswordFor = (function (_super) {
+                    __extends(PasswordFor, _super);
+                    function PasswordFor(property, keySelector) {
+                        _super.call(this, property, keySelector);
+                    }
+                    PasswordFor.prototype.GetHtml = function () {
+                        return new InputHelper(InputType.Password, this.property, this.propertyValue, this.collectionOfAnnotations).GetReactJsElement();
+                    };
+                    return PasswordFor;
+                }(InputElementHelper));
+                Html.PasswordFor = PasswordFor;
+                var RadioButtonFor = (function (_super) {
+                    __extends(RadioButtonFor, _super);
+                    function RadioButtonFor(property, keySelector) {
+                        _super.call(this, property, keySelector);
+                    }
+                    RadioButtonFor.prototype.GetHtml = function () {
+                        return new InputHelper(InputType.Radio, this.property, this.propertyValue, this.collectionOfAnnotations).GetReactJsElement();
+                    };
+                    return RadioButtonFor;
+                }(InputElementHelper));
+                Html.RadioButtonFor = RadioButtonFor;
+                var TextBoxFor = (function (_super) {
+                    __extends(TextBoxFor, _super);
+                    function TextBoxFor(property, keySelector) {
+                        _super.call(this, property, keySelector);
+                    }
                     TextBoxFor.prototype.GetHtml = function () {
                         return new InputHelper(InputType.Text, this.property, this.propertyValue, this.collectionOfAnnotations).GetReactJsElement();
                     };
                     return TextBoxFor;
-                }());
+                }(InputElementHelper));
                 Html.TextBoxFor = TextBoxFor;
             })(Html = Mvc.Html || (Mvc.Html = {}));
         })(Mvc = Web.Mvc || (Web.Mvc = {}));

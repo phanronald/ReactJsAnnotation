@@ -23,9 +23,28 @@ var vmRegister = (function () {
         this.NumberOfEmployees = 0;
     }
     __decorate([
-        annotation.required(""),
-        annotation.email(""), 
+        annotation.required(""), 
         __metadata('design:type', String)
     ], vmRegister.prototype, "FirstName", void 0);
+    __decorate([
+        annotation.email(""), 
+        __metadata('design:type', String)
+    ], vmRegister.prototype, "Email", void 0);
+    __decorate([
+        annotation.phone(""), 
+        __metadata('design:type', Number)
+    ], vmRegister.prototype, "Phone", void 0);
+    __decorate([
+        annotation.regex("", "^([0-9]{5}(-[0-9]{4})?)$"), 
+        __metadata('design:type', Number)
+    ], vmRegister.prototype, "Zipcode", void 0);
+    __decorate([
+        annotation.creditcard(""), 
+        __metadata('design:type', Number)
+    ], vmRegister.prototype, "CreditCard", void 0);
+    __decorate([
+        annotation.range("", 0, 100), 
+        __metadata('design:type', Number)
+    ], vmRegister.prototype, "NumberOfEmployees", void 0);
     return vmRegister;
 }());

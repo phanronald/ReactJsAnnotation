@@ -1,4 +1,6 @@
-﻿interface ICustomDataAnnotationModel {
+﻿/// <reference path="../common/collection.ts" />
+
+interface ICustomDataAnnotationModel {
 	dataFromServer: ICustomDataAnnotationProps[];
 }
 
@@ -22,6 +24,6 @@ interface IDataAnnotationAttribute {
 	errorMessageResourceType: Object;
 }
 
-interface IFieldAttributes {
-	DataAnnotations: Collection<ICSharpDataAnnotation>;
+interface String {
+	IsNullOrWhitespace(str:string): boolean;
 }

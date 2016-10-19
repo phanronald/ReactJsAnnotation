@@ -15,7 +15,7 @@ var Register = (function (_super) {
         registerModel.CreditCard = 4111111111111111;
         var textboxFor = [];
         for (var property in registerModel) {
-            var valuesForProperty = System.ComponentModel.DataAnnotations.GenericDataAnnotation.Where(function (x) { return x.key[0] == property; });
+            var valuesForProperty = System.ComponentModel.DataAnnotations.GenericDataAnnotation.Where(function (x) { return x.key[0] == property && x.key[1] == vmRegister; });
             var currentPropertyHtml = new System.Web.Mvc.Html.TextBoxFor(property, function (propertyName) { return registerModel[propertyName]; }).GetHtml();
             textboxFor.push(currentPropertyHtml);
         }

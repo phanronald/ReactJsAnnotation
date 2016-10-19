@@ -18,7 +18,7 @@ namespace System.Web.Mvc.Html {
 			this.rowsAndColumnsDictionary.Add("cols", "20");
 			this.tagBuilder = new System.Web.Mvc.TagBuilder("textarea");
 			this.inputValue = (value !== undefined && value !== null) ? value.toString() : "";
-			this.aspnetMvcString = this.SetupInput();
+			this.aspnetMvcString = this.SetupTextArea();
 		}
 
 		public GetHtmlString = (): string => {
@@ -29,7 +29,7 @@ namespace System.Web.Mvc.Html {
 			return this.SetupReactElement();
 		}
 
-		private SetupInput = (): string => {
+		private SetupTextArea = (): string => {
 			this.tagBuilder.MergeAttributes(this.htmlAttributes, false);
 			this.tagBuilder.GenerateId(this.fieldName);
 			this.tagBuilder.MergeAttribute("name", this.fieldName, true);
@@ -40,7 +40,7 @@ namespace System.Web.Mvc.Html {
 
 		private SetupReactElement = (): React.DOMElement<{}, Element> => {
 
-			return HtmlUtility.CreateReactJsElement("input", this.aspnetMvcString);
+			return HtmlUtility.CreateReactJsElement("textarea", this.aspnetMvcString);
 		}
 	}
 

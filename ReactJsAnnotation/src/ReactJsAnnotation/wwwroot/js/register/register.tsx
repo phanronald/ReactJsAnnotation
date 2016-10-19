@@ -6,7 +6,6 @@
 
 /// <reference path="../typings/interface.d.ts" />
 /// <reference path="../typings/dataannotation.d.ts" />
-/// <reference path="dataannotationmodel.ts" />
 /// <reference path="../models/vmregister.ts" />
 
 
@@ -25,7 +24,7 @@ class Register extends React.Component<any, any> {
 		var textboxFor = [];
 
 		for (var property in registerModel) {
-			let valuesForProperty = System.ComponentModel.DataAnnotations.GenericDataAnnotation.Where(x => x.key[0] == property);
+			let valuesForProperty = System.ComponentModel.DataAnnotations.GenericDataAnnotation.Where(x => x.key[0] == property && x.key[1] == vmRegister);
 			const currentPropertyHtml = new System.Web.Mvc.Html.TextBoxFor(property, (propertyName: string) => registerModel[propertyName]).GetHtml();
 			textboxFor.push(currentPropertyHtml);
 		}
