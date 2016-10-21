@@ -23,6 +23,7 @@ var vmRegister = (function () {
         this.NumberOfEmployees = 0;
     }
     __decorate([
+        annotation.display("First Name"),
         annotation.required(""), 
         __metadata('design:type', String)
     ], vmRegister.prototype, "FirstName", void 0);

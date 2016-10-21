@@ -3,8 +3,8 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var GenericDataAnnotation = (function () {
-    function GenericDataAnnotation(field, fieldValue, errorMessage) {
+var GenericValidationAttribute = (function () {
+    function GenericValidationAttribute(field, fieldValue, errorMessage) {
         if (errorMessage === void 0) { errorMessage = ""; }
         this.DataValueAttribute = new Dictionary();
         this.ErrorMessage = errorMessage;
@@ -19,19 +19,23 @@ var GenericDataAnnotation = (function () {
             this.DataValueAttribute.Add("data-val-number", "The field " + field + " must be a number.");
         }
     }
-    return GenericDataAnnotation;
+    return GenericValidationAttribute;
+}());
+var GenericAttribute = (function () {
+    function GenericAttribute(field, displayName) {
+        this.Name = "";
+        this.Name = (displayName === "" ? displayName : field);
+    }
+    return GenericAttribute;
 }());
 var DisplayDataAnnotation = (function (_super) {
     __extends(DisplayDataAnnotation, _super);
-    function DisplayDataAnnotation(field, fieldValue, errorMessage) {
-        if (errorMessage === void 0) { errorMessage = ""; }
-        _super.call(this, field, fieldValue, errorMessage);
-        this.DefaultErrorMessage = "";
+    function DisplayDataAnnotation(field, displayName) {
+        _super.call(this, field, displayName);
         this.AnnotationType = CSharpDataAnnoationType.Display;
-        this.DataValueAttribute.Clear();
     }
     return DisplayDataAnnotation;
-}(GenericDataAnnotation));
+}(GenericAttribute));
 var RequiredDataAnnotation = (function (_super) {
     __extends(RequiredDataAnnotation, _super);
     function RequiredDataAnnotation(field, fieldValue, errorMessage) {
@@ -41,7 +45,7 @@ var RequiredDataAnnotation = (function (_super) {
         this.AnnotationType = CSharpDataAnnoationType.Required;
     }
     return RequiredDataAnnotation;
-}(GenericDataAnnotation));
+}(GenericValidationAttribute));
 var EmailDataAnnotation = (function (_super) {
     __extends(EmailDataAnnotation, _super);
     function EmailDataAnnotation(field, fieldValue, errorMessage) {
@@ -53,7 +57,7 @@ var EmailDataAnnotation = (function (_super) {
         this.DataValueAttribute.Add("data-val-email", (this.isValidErrorMessage ? this.ErrorMessage : this.DefaultErrorMessage));
     }
     return EmailDataAnnotation;
-}(GenericDataAnnotation));
+}(GenericValidationAttribute));
 var PhonedDataAnnotation = (function (_super) {
     __extends(PhonedDataAnnotation, _super);
     function PhonedDataAnnotation(field, fieldValue, errorMessage) {
@@ -64,7 +68,7 @@ var PhonedDataAnnotation = (function (_super) {
         this.DataValueAttribute.Add("data-val-phone", (this.isValidErrorMessage ? this.ErrorMessage : this.DefaultErrorMessage));
     }
     return PhonedDataAnnotation;
-}(GenericDataAnnotation));
+}(GenericValidationAttribute));
 var RegexDataAnnotation = (function (_super) {
     __extends(RegexDataAnnotation, _super);
     function RegexDataAnnotation(field, fieldValue, regexPattern, errorMessage) {
@@ -76,7 +80,7 @@ var RegexDataAnnotation = (function (_super) {
         this.DataValueAttribute.Add("data-val-regex-pattern", regexPattern);
     }
     return RegexDataAnnotation;
-}(GenericDataAnnotation));
+}(GenericValidationAttribute));
 var CreditCardDataAnnotation = (function (_super) {
     __extends(CreditCardDataAnnotation, _super);
     function CreditCardDataAnnotation(field, fieldValue, errorMessage) {
@@ -87,7 +91,7 @@ var CreditCardDataAnnotation = (function (_super) {
         this.DataValueAttribute.Add("data-val-creditcard", (this.isValidErrorMessage ? this.ErrorMessage : this.DefaultErrorMessage));
     }
     return CreditCardDataAnnotation;
-}(GenericDataAnnotation));
+}(GenericValidationAttribute));
 var RangeDataAnnotation = (function (_super) {
     __extends(RangeDataAnnotation, _super);
     function RangeDataAnnotation(field, fieldValue, errorMessage, min, max) {
@@ -102,4 +106,4 @@ var RangeDataAnnotation = (function (_super) {
         this.DataValueAttribute.Add("data-val-range-max", "" + max);
     }
     return RangeDataAnnotation;
-}(GenericDataAnnotation));
+}(GenericValidationAttribute));

@@ -23,7 +23,3 @@ interface IDataAnnotationAttribute {
 	errorMessageResourceName: string;
 	errorMessageResourceType: Object;
 }
-
-interface String {
-	IsNullOrWhitespace(str:string): boolean;
-}

@@ -4,23 +4,20 @@ var System;
     (function (ComponentModel) {
         var DataAnnotations;
         (function (DataAnnotations) {
-            DataAnnotations.GenericDataAnnotation = new Dictionary();
+            DataAnnotations.GenericValidationAnnotation = new Dictionary();
+            DataAnnotations.GenericAttributeAnnotation = new Dictionary();
+            ;
             function display(errorMessage) {
                 function displayDecorator(target, key) {
                     target.constructor();
                     var currentPropertyValue = target[key];
                     var displayDataAnnotation;
-                    if (errorMessage === "") {
-                        displayDataAnnotation = new DisplayDataAnnotation(key, currentPropertyValue);
-                    }
-                    else {
-                        displayDataAnnotation = new DisplayDataAnnotation(key, currentPropertyValue, errorMessage);
-                    }
+                    displayDataAnnotation = new DisplayDataAnnotation(key, currentPropertyValue);
                     var getter = function () {
                         return currentPropertyValue;
                     };
                     var setter = function (newVal) {
-                        DataAnnotations.GenericDataAnnotation.Add([key, target, CSharpDataAnnoationType.Display], displayDataAnnotation);
+                        DataAnnotations.GenericAttributeAnnotation.Add([key, target.constructor.name, CSharpDataAnnoationType.Display], displayDataAnnotation);
                         currentPropertyValue = newVal;
                     };
                     if (delete this[key]) {
@@ -50,7 +47,7 @@ var System;
                         return currentPropertyValue;
                     };
                     var setter = function (newVal) {
-                        DataAnnotations.GenericDataAnnotation.Add([key, target, CSharpDataAnnoationType.Required], requiredDataAnnotation);
+                        DataAnnotations.GenericValidationAnnotation.Add([key, target.constructor.name, CSharpDataAnnoationType.Required], requiredDataAnnotation);
                         currentPropertyValue = newVal;
                     };
                     if (delete this[key]) {
@@ -80,7 +77,7 @@ var System;
                         return currentPropertyValue;
                     };
                     var setter = function (newVal) {
-                        DataAnnotations.GenericDataAnnotation.Add([key, target, CSharpDataAnnoationType.EmailAddress], emailDataAnnotation);
+                        DataAnnotations.GenericValidationAnnotation.Add([key, target.constructor.name, CSharpDataAnnoationType.EmailAddress], emailDataAnnotation);
                         currentPropertyValue = newVal;
                     };
                     if (delete this[key]) {
@@ -111,7 +108,7 @@ var System;
                         return currentPropertyValue;
                     };
                     var setter = function (newVal) {
-                        DataAnnotations.GenericDataAnnotation.Add([key, target, CSharpDataAnnoationType.Phone], phoneDataAnnotation);
+                        DataAnnotations.GenericValidationAnnotation.Add([key, target.constructor.name, CSharpDataAnnoationType.Phone], phoneDataAnnotation);
                         currentPropertyValue = newVal;
                     };
                     if (delete this[key]) {
@@ -142,7 +139,7 @@ var System;
                         return currentPropertyValue;
                     };
                     var setter = function (newVal) {
-                        DataAnnotations.GenericDataAnnotation.Add([key, target, CSharpDataAnnoationType.RegularExpression], regexDataAnnotation);
+                        DataAnnotations.GenericValidationAnnotation.Add([key, target.constructor.name, CSharpDataAnnoationType.RegularExpression], regexDataAnnotation);
                         currentPropertyValue = newVal;
                     };
                     if (delete this[key]) {
@@ -172,7 +169,7 @@ var System;
                         return currentPropertyValue;
                     };
                     var setter = function (newVal) {
-                        DataAnnotations.GenericDataAnnotation.Add([key, target, CSharpDataAnnoationType.CreditCard], creditCardDataAnnotation);
+                        DataAnnotations.GenericValidationAnnotation.Add([key, target.constructor.name, CSharpDataAnnoationType.CreditCard], creditCardDataAnnotation);
                         currentPropertyValue = newVal;
                     };
                     if (delete this[key]) {
@@ -202,7 +199,7 @@ var System;
                         return currentPropertyValue;
                     };
                     var setter = function (newVal) {
-                        DataAnnotations.GenericDataAnnotation.Add([key, target, CSharpDataAnnoationType.Range], rangeDataAnnotation);
+                        DataAnnotations.GenericValidationAnnotation.Add([key, target.constructor.name, CSharpDataAnnoationType.Range], rangeDataAnnotation);
                         currentPropertyValue = newVal;
                     };
                     if (delete this[key]) {

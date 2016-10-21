@@ -13,10 +13,11 @@ var Register = (function (_super) {
         registerModel.FirstName = "First";
         registerModel.LastName = "last";
         registerModel.CreditCard = 4111111111111111;
+        var displayFor = [];
         var textboxFor = [];
         for (var property in registerModel) {
-            var valuesForProperty = System.ComponentModel.DataAnnotations.GenericDataAnnotation.Where(function (x) { return x.key[0] == property && x.key[1] == vmRegister; });
-            var currentPropertyHtml = new System.Web.Mvc.Html.TextBoxFor(property, function (propertyName) { return registerModel[propertyName]; }).GetHtml();
+            var currentPropertyHtml = new System.Web.Mvc.Html.TextBoxFor(vmRegister, property, function (propertyName) { return registerModel[propertyName]; }).GetHtml();
+            var displayValuesForDisplayProperty = System.ComponentModel.DataAnnotations.GenericAttributeAnnotation.Where(function (x) { return x.key[0] == property && x.key[1] == vmRegister; });
             textboxFor.push(currentPropertyHtml);
         }
         return (React.createElement("div", null, 

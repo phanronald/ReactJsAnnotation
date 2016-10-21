@@ -4,7 +4,8 @@
 
 namespace System.ComponentModel.DataAnnotations {
 
-	export var GenericDataAnnotation: Dictionary<[string, any, CSharpDataAnnoationType], GenericDataAnnotation> = new Dictionary<[string, any, CSharpDataAnnoationType], GenericDataAnnotation>();
+	export var GenericValidationAnnotation: Dictionary<[string, any, CSharpDataAnnoationType], GenericValidationAttribute> = new Dictionary<[string, any, CSharpDataAnnoationType], GenericValidationAttribute>();
+	export var GenericAttributeAnnotation: Dictionary<[string, any, any], GenericAttribute> = new Dictionary<[string, any, any], GenericAttribute>();;
 
 	export function display(errorMessage?: string) {
 
@@ -13,13 +14,7 @@ namespace System.ComponentModel.DataAnnotations {
 			// property value
 			let currentPropertyValue = target[key];
 			let displayDataAnnotation: DisplayDataAnnotation;
-
-			if (errorMessage === "") {
-				displayDataAnnotation = new DisplayDataAnnotation(key, currentPropertyValue);
-			}
-			else {
-				displayDataAnnotation = new DisplayDataAnnotation(key, currentPropertyValue, errorMessage);
-			}
+			displayDataAnnotation = new DisplayDataAnnotation(key, currentPropertyValue);
 
 			// property getter
 			var getter = function () {
@@ -28,7 +23,7 @@ namespace System.ComponentModel.DataAnnotations {
 
 			// property setter
 			var setter = function (newVal) {
-				GenericDataAnnotation.Add([key, target, CSharpDataAnnoationType.Display], displayDataAnnotation);
+				GenericAttributeAnnotation.Add([key, target.constructor.name, CSharpDataAnnoationType.Display], displayDataAnnotation);
 				currentPropertyValue = newVal;
 			};
 
@@ -70,7 +65,7 @@ namespace System.ComponentModel.DataAnnotations {
 
 			// property setter
 			var setter = function (newVal) {
-				GenericDataAnnotation.Add([key, target, CSharpDataAnnoationType.Required], requiredDataAnnotation);
+				GenericValidationAnnotation.Add([key, target.constructor.name, CSharpDataAnnoationType.Required], requiredDataAnnotation);
 				currentPropertyValue = newVal;
 			};
 
@@ -111,7 +106,7 @@ namespace System.ComponentModel.DataAnnotations {
 
 			// property setter
 			var setter = function (newVal) {
-				GenericDataAnnotation.Add([key, target, CSharpDataAnnoationType.EmailAddress], emailDataAnnotation);
+				GenericValidationAnnotation.Add([key, target.constructor.name, CSharpDataAnnoationType.EmailAddress], emailDataAnnotation);
 				currentPropertyValue = newVal;
 			};
 
@@ -153,7 +148,7 @@ namespace System.ComponentModel.DataAnnotations {
 			// property setter
 			var setter = function (newVal) {
 
-				GenericDataAnnotation.Add([key, target, CSharpDataAnnoationType.Phone], phoneDataAnnotation);
+				GenericValidationAnnotation.Add([key, target.constructor.name, CSharpDataAnnoationType.Phone], phoneDataAnnotation);
 				currentPropertyValue = newVal;
 			};
 
@@ -195,7 +190,7 @@ namespace System.ComponentModel.DataAnnotations {
 			// property setter
 			var setter = function (newVal) {
 
-				GenericDataAnnotation.Add([key, target, CSharpDataAnnoationType.RegularExpression], regexDataAnnotation);
+				GenericValidationAnnotation.Add([key, target.constructor.name, CSharpDataAnnoationType.RegularExpression], regexDataAnnotation);
 				currentPropertyValue = newVal;
 			};
 
@@ -236,7 +231,7 @@ namespace System.ComponentModel.DataAnnotations {
 
 			// property setter
 			var setter = function (newVal) {
-				GenericDataAnnotation.Add([key, target, CSharpDataAnnoationType.CreditCard], creditCardDataAnnotation);
+				GenericValidationAnnotation.Add([key, target.constructor.name, CSharpDataAnnoationType.CreditCard], creditCardDataAnnotation);
 				currentPropertyValue = newVal;
 			};
 
@@ -277,7 +272,7 @@ namespace System.ComponentModel.DataAnnotations {
 
 			// property setter
 			var setter = function (newVal) {
-				GenericDataAnnotation.Add([key, target, CSharpDataAnnoationType.Range], rangeDataAnnotation);
+				GenericValidationAnnotation.Add([key, target.constructor.name, CSharpDataAnnoationType.Range], rangeDataAnnotation);
 				currentPropertyValue = newVal;
 			};
 

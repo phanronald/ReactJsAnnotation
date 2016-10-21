@@ -84,12 +84,12 @@ var System;
                     return InputHelper;
                 }());
                 var InputElementHelper = (function () {
-                    function InputElementHelper(property, keySelector) {
+                    function InputElementHelper(className, property, keySelector) {
                         this.collectionOfAnnotations = new Dictionary();
                         this.property = property;
                         this.propertyValue = keySelector(property);
-                        if (System.ComponentModel.DataAnnotations.GenericDataAnnotation.Count() > 0) {
-                            var allDataAnnotationForProperty = System.ComponentModel.DataAnnotations.GenericDataAnnotation.Where(function (x) { return x.key[0] == property; });
+                        if (System.ComponentModel.DataAnnotations.GenericValidationAnnotation.Count() > 0) {
+                            var allDataAnnotationForProperty = System.ComponentModel.DataAnnotations.GenericValidationAnnotation.Where(function (x) { return x.key[0] == property && x.key[1] == className.name; });
                             if (allDataAnnotationForProperty.Count() > 0) {
                                 var allDataAnnotations = allDataAnnotationForProperty.GetValues();
                                 for (var i = 0; i < allDataAnnotations.length; i++) {
@@ -105,8 +105,8 @@ var System;
                 }());
                 var CheckBoxFor = (function (_super) {
                     __extends(CheckBoxFor, _super);
-                    function CheckBoxFor(property, keySelector) {
-                        _super.call(this, property, keySelector);
+                    function CheckBoxFor(className, property, keySelector) {
+                        _super.call(this, className, property, keySelector);
                     }
                     CheckBoxFor.prototype.GetHtml = function () {
                         return new InputHelper(InputType.CheckBox, this.property, this.propertyValue, this.collectionOfAnnotations).GetReactJsElement();
@@ -116,8 +116,8 @@ var System;
                 Html.CheckBoxFor = CheckBoxFor;
                 var HiddenFor = (function (_super) {
                     __extends(HiddenFor, _super);
-                    function HiddenFor(property, keySelector) {
-                        _super.call(this, property, keySelector);
+                    function HiddenFor(className, property, keySelector) {
+                        _super.call(this, className, property, keySelector);
                     }
                     HiddenFor.prototype.GetHtml = function () {
                         return new InputHelper(InputType.Hidden, this.property, this.propertyValue, this.collectionOfAnnotations).GetReactJsElement();
@@ -127,8 +127,8 @@ var System;
                 Html.HiddenFor = HiddenFor;
                 var PasswordFor = (function (_super) {
                     __extends(PasswordFor, _super);
-                    function PasswordFor(property, keySelector) {
-                        _super.call(this, property, keySelector);
+                    function PasswordFor(className, property, keySelector) {
+                        _super.call(this, className, property, keySelector);
                     }
                     PasswordFor.prototype.GetHtml = function () {
                         return new InputHelper(InputType.Password, this.property, this.propertyValue, this.collectionOfAnnotations).GetReactJsElement();
@@ -138,8 +138,8 @@ var System;
                 Html.PasswordFor = PasswordFor;
                 var RadioButtonFor = (function (_super) {
                     __extends(RadioButtonFor, _super);
-                    function RadioButtonFor(property, keySelector) {
-                        _super.call(this, property, keySelector);
+                    function RadioButtonFor(className, property, keySelector) {
+                        _super.call(this, className, property, keySelector);
                     }
                     RadioButtonFor.prototype.GetHtml = function () {
                         return new InputHelper(InputType.Radio, this.property, this.propertyValue, this.collectionOfAnnotations).GetReactJsElement();
@@ -149,8 +149,8 @@ var System;
                 Html.RadioButtonFor = RadioButtonFor;
                 var TextBoxFor = (function (_super) {
                     __extends(TextBoxFor, _super);
-                    function TextBoxFor(property, keySelector) {
-                        _super.call(this, property, keySelector);
+                    function TextBoxFor(className, property, keySelector) {
+                        _super.call(this, className, property, keySelector);
                     }
                     TextBoxFor.prototype.GetHtml = function () {
                         return new InputHelper(InputType.Text, this.property, this.propertyValue, this.collectionOfAnnotations).GetReactJsElement();

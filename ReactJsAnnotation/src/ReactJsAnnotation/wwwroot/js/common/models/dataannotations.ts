@@ -1,6 +1,6 @@
 ﻿/// <reference path="../../typings/dataannotation.d.ts" />
 
-class GenericDataAnnotation implements ICSharpDataAnnotation {
+class GenericValidationAttribute implements ICSharpValidationAttribute {
 	public AnnotationType: CSharpDataAnnoationType;
 	public ErrorMessage: string;
 	public DefaultErrorMessage: string;
@@ -28,17 +28,24 @@ class GenericDataAnnotation implements ICSharpDataAnnotation {
 	}
 }
 
-class DisplayDataAnnotation extends GenericDataAnnotation {
+class GenericAttribute implements ICSharpAttribute {
+	public AnnotationType: CSharpDataAnnoationType;
+	public Name: string = "";
 
-	constructor(field: string, fieldValue: any, errorMessage: string = "") {
-		super(field, fieldValue, errorMessage);
-		this.DefaultErrorMessage = "";
-		this.AnnotationType = CSharpDataAnnoationType.Display;
-		this.DataValueAttribute.Clear();
+	constructor(field: string, displayName: string) {
+		this.Name = (displayName === "" ? displayName : field);
 	}
 }
 
-class RequiredDataAnnotation extends GenericDataAnnotation {
+class DisplayDataAnnotation extends GenericAttribute {
+
+	constructor(field: string, displayName: string) {
+		super(field, displayName);
+		this.AnnotationType = CSharpDataAnnoationType.Display;
+	}
+}
+
+class RequiredDataAnnotation extends GenericValidationAttribute {
 
 	constructor(field: string, fieldValue: any, errorMessage: string = "") {
 		super(field, fieldValue, errorMessage);
@@ -47,7 +54,7 @@ class RequiredDataAnnotation extends GenericDataAnnotation {
 	}
 }
 
-class EmailDataAnnotation extends GenericDataAnnotation {
+class EmailDataAnnotation extends GenericValidationAttribute {
 
 	constructor(field: string, fieldValue: any, errorMessage: string = "") {
 		super(field, fieldValue, errorMessage);
@@ -59,7 +66,7 @@ class EmailDataAnnotation extends GenericDataAnnotation {
 
 }
 
-class PhonedDataAnnotation extends GenericDataAnnotation {
+class PhonedDataAnnotation extends GenericValidationAttribute {
 
 	constructor(field: string, fieldValue:any ,errorMessage: string = "") {
 		super(field, fieldValue, errorMessage);
@@ -69,7 +76,7 @@ class PhonedDataAnnotation extends GenericDataAnnotation {
 	}
 }
 
-class RegexDataAnnotation extends GenericDataAnnotation {
+class RegexDataAnnotation extends GenericValidationAttribute {
 
 	constructor(field: string, fieldValue: any, regexPattern: string, errorMessage: string = "") {
 		super(field, fieldValue, errorMessage);
@@ -81,7 +88,7 @@ class RegexDataAnnotation extends GenericDataAnnotation {
 
 }
 
-class CreditCardDataAnnotation extends GenericDataAnnotation {
+class CreditCardDataAnnotation extends GenericValidationAttribute {
 
 	constructor(field: string, fieldValue:any, errorMessage: string = "") {
 		super(field, fieldValue, errorMessage);
@@ -92,7 +99,7 @@ class CreditCardDataAnnotation extends GenericDataAnnotation {
 
 }
 
-class RangeDataAnnotation extends GenericDataAnnotation {
+class RangeDataAnnotation extends GenericValidationAttribute {
 
 	constructor(field: string, fieldValue:any, errorMessage: string = "", min: number = 0, max: number = 100) {
 		super(field, fieldValue, errorMessage);

@@ -4,6 +4,7 @@ import annotation = System.ComponentModel.DataAnnotations
 
 class vmRegister {
 
+	@annotation.display("First Name")
 	@annotation.required("")
 	public FirstName: string = "Test";
 

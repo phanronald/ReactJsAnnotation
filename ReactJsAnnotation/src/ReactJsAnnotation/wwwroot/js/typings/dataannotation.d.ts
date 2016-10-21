@@ -39,9 +39,14 @@ declare enum TagRenderMode {
 	SelfClosing
 }
 
-interface ICSharpDataAnnotation {
+interface ICSharpValidationAttribute {
 	AnnotationType: CSharpDataAnnoationType;
 	ErrorMessage: string;
 	DefaultErrorMessage: string;
 	DataValueAttribute: Dictionary<string, Object>;
+}
+
+interface ICSharpAttribute {
+	AnnotationType: CSharpDataAnnoationType;
+	Name: string;
 }

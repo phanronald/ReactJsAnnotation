@@ -5,6 +5,7 @@
 /// <reference path="js/common/enums.js" />
 /// <reference path="js/common/helpers/htmlutility.js" />
 /// <reference path="js/common/helpers/inputhelper.js" />
+/// <reference path="js/common/helpers/labelhelper.js" />
 /// <reference path="js/common/helpers/tagbuilder.js" />
 /// <reference path="js/common/models/dataannotations.js" />
 /// <reference path="js/main.js" />
