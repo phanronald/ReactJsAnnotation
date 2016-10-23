@@ -24,7 +24,7 @@ var GenericValidationAttribute = (function () {
 var GenericAttribute = (function () {
     function GenericAttribute(field, displayName) {
         this.Name = "";
-        this.Name = (displayName === "" ? displayName : field);
+        this.Name = (displayName !== "" ? displayName : field);
     }
     return GenericAttribute;
 }());

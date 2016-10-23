@@ -33,7 +33,7 @@ class GenericAttribute implements ICSharpAttribute {
 	public Name: string = "";
 
 	constructor(field: string, displayName: string) {
-		this.Name = (displayName === "" ? displayName : field);
+		this.Name = (displayName !== "" ? displayName : field);
 	}
 }
 

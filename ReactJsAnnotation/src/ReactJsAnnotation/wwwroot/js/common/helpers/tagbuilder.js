@@ -22,7 +22,7 @@ var System;
                             return new Error("invalidCharReplacement");
                         }
                         var ch = originalId.charAt(0);
-                        if (_this.IsLetter(ch.charCodeAt(0))) {
+                        if (!_this.IsLetter(ch.charCodeAt(0))) {
                             return undefined;
                         }
                         var sb = ch;

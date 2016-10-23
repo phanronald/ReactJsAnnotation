@@ -7,12 +7,12 @@ var System;
             DataAnnotations.GenericValidationAnnotation = new Dictionary();
             DataAnnotations.GenericAttributeAnnotation = new Dictionary();
             ;
-            function display(errorMessage) {
+            function display(displayName) {
                 function displayDecorator(target, key) {
                     target.constructor();
                     var currentPropertyValue = target[key];
                     var displayDataAnnotation;
-                    displayDataAnnotation = new DisplayDataAnnotation(key, currentPropertyValue);
+                    displayDataAnnotation = new DisplayDataAnnotation(key, displayName);
                     var getter = function () {
                         return currentPropertyValue;
                     };

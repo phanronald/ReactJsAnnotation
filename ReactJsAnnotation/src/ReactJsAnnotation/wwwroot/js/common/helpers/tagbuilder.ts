@@ -41,7 +41,7 @@ namespace System.Web.Mvc {
 			}
 
 			const ch = originalId.charAt(0);
-			if (this.IsLetter(ch.charCodeAt(0))) {
+			if (!this.IsLetter(ch.charCodeAt(0))) {
 				return undefined;
 			}
 

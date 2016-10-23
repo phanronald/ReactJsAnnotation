@@ -30,6 +30,9 @@ var System;
                                     if (currentAttribute.name === "defaultvalue") {
                                         attributeName = "defaultValue";
                                     }
+                                    if (currentAttribute.name === "htmlfor") {
+                                        attributeName = "htmlFor";
+                                    }
                                     elementProperties[attributeName] = currentAttribute.value;
                                 }
                             }
@@ -39,7 +42,21 @@ var System;
                             return React.createElement(inputType, elementProperties);
                         }
                         else {
-                            return React.createElement(inputType, elementProperties, inputElement.childNodes);
+                            var childNodes = [];
+                            var childValue = "";
+                            for (var i = 0; i < inputElement.childNodes.length; i++) {
+                                var currentInputElementChildNode = inputElement.childNodes[i];
+                                var nodeType = this.NodeTypes[currentInputElementChildNode.nodeType];
+                                if (nodeType === "Text") {
+                                    childValue = currentInputElementChildNode.nodeValue;
+                                }
+                            }
+                            if (childValue === "") {
+                                return React.createElement(inputType, elementProperties, childNodes);
+                            }
+                            else if (childNodes.length == 0) {
+                                return React.createElement(inputType, elementProperties, childValue);
+                            }
                         }
                     };
                     HtmlUtility.entityMap = {
@@ -52,6 +69,11 @@ var System;
                     };
                     HtmlUtility.ElementsWithNoChildren = ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input',
                         'keygen', 'link', 'meta', 'param', 'source', 'track', 'wbr', 'textarea'];
+                    HtmlUtility.NodeTypes = {
+                        1: "Element",
+                        2: "Attr",
+                        3: "Text"
+                    };
                     return HtmlUtility;
                 }());
                 Html.HtmlUtility = HtmlUtility;

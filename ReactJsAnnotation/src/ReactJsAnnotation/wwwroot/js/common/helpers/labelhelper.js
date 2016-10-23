@@ -12,24 +12,21 @@ var System;
             var Html;
             (function (Html) {
                 var LabelHelper = (function () {
-                    function LabelHelper(fieldName, text, htmlAttributes) {
+                    function LabelHelper(className, property, htmlAttributes) {
                         var _this = this;
-                        this.fieldName = fieldName;
-                        this.text = text;
+                        this.className = className;
+                        this.property = property;
                         this.htmlAttributes = htmlAttributes;
-                        this.GetHtmlString = function () {
-                            return _this.aspnetMvcString;
-                        };
-                        this.GetReactJsElement = function () {
+                        this.GetHtml = function () {
                             return _this.SetupReactElement();
                         };
                         this.SetupLabel = function () {
-                            var sanitizedFieldName = _this.tagBuilder.CreateSanitizedId(_this.fieldName, "_");
+                            var sanitizedFieldName = _this.tagBuilder.CreateSanitizedId(_this.property, "_");
                             var sanitizedLabelFieldName = "";
                             if (typeof sanitizedFieldName === "string") {
                                 sanitizedLabelFieldName = sanitizedFieldName;
                             }
-                            _this.tagBuilder.MergeAttribute("for", sanitizedLabelFieldName, false);
+                            _this.tagBuilder.MergeAttribute("htmlFor", sanitizedLabelFieldName, false);
                             _this.tagBuilder.SetInnerText(_this.labelText);
                             _this.tagBuilder.MergeAttributes(_this.htmlAttributes, true);
                             return _this.tagBuilder.ToString(TagRenderMode.Normal);
@@ -38,17 +35,32 @@ var System;
                             return Html.HtmlUtility.CreateReactJsElement("label", _this.aspnetMvcString);
                         };
                         this.tagBuilder = new System.Web.Mvc.TagBuilder("label");
-                        this.labelText = (text !== undefined && text !== null ? text.toString() : "");
+                        var attributeDictionary = System.ComponentModel.DataAnnotations.GenericAttributeAnnotation;
+                        if (attributeDictionary.Count() > 0) {
+                            var allGenericAnnotationForProperty = attributeDictionary.Where(function (x) { return x.key[0] == property && x.key[1] == className.name; });
+                            if (allGenericAnnotationForProperty.Count() > 0) {
+                                var allGenericDataAnnotations = allGenericAnnotationForProperty.GetValues();
+                                for (var i = 0; i < allGenericDataAnnotations.length; i++) {
+                                    var genericAnnotationDictionary = allGenericDataAnnotations[i];
+                                    if (genericAnnotationDictionary !== undefined) {
+                                        this.labelText = genericAnnotationDictionary.Name;
+                                    }
+                                }
+                            }
+                            else {
+                                this.labelText = property;
+                            }
+                        }
                         this.aspnetMvcString = this.SetupLabel();
                     }
                     return LabelHelper;
                 }());
                 var LabelFor = (function (_super) {
                     __extends(LabelFor, _super);
-                    function LabelFor(fieldName, text, htmlAttributes) {
-                        _super.call(this, fieldName, text, htmlAttributes);
-                        this.fieldName = fieldName;
-                        this.text = text;
+                    function LabelFor(className, property, htmlAttributes) {
+                        _super.call(this, className, property, htmlAttributes);
+                        this.className = className;
+                        this.property = property;
                         this.htmlAttributes = htmlAttributes;
                     }
                     return LabelFor;

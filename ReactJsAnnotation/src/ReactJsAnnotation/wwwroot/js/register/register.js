@@ -17,14 +17,18 @@ var Register = (function (_super) {
         var textboxFor = [];
         for (var property in registerModel) {
             var currentPropertyHtml = new System.Web.Mvc.Html.TextBoxFor(vmRegister, property, function (propertyName) { return registerModel[propertyName]; }).GetHtml();
-            var displayValuesForDisplayProperty = System.ComponentModel.DataAnnotations.GenericAttributeAnnotation.Where(function (x) { return x.key[0] == property && x.key[1] == vmRegister; });
+            var currentLabelForHtml = new System.Web.Mvc.Html.LabelFor(vmRegister, property, null).GetHtml();
+            displayFor.push(currentLabelForHtml);
             textboxFor.push(currentPropertyHtml);
         }
         return (React.createElement("div", null, 
             React.createElement("section", null, Object.keys(textboxFor).map(function (key, index) {
                 var textboxRegister = textboxFor[index];
+                var labelRegister = displayFor[index];
                 return (React.createElement("div", {className: "row", key: index}, 
-                    React.createElement("div", null, textboxRegister)
+                    React.createElement("div", null, 
+                        labelRegister, 
+                        textboxRegister)
                 ));
             })), 
             React.createElement("section", null, 

@@ -13,6 +13,12 @@ namespace System.Web.Mvc.Html {
 		private static ElementsWithNoChildren = ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input',
 			'keygen', 'link', 'meta', 'param', 'source', 'track', 'wbr', 'textarea'];
 
+		private static NodeTypes = {
+			1: "Element",
+			2: "Attr",
+			3: "Text"
+		}
+
 		public static HtmlEncode(source: string):string {
 			return String(source).replace(/[&<>"'\/]/g, s => this.entityMap[s]);
 		}
@@ -38,6 +44,10 @@ namespace System.Web.Mvc.Html {
 							attributeName = "defaultValue";
 						}
 
+						if (currentAttribute.name === "htmlfor") {
+							attributeName = "htmlFor";
+						}
+
 						elementProperties[attributeName] = currentAttribute.value;
 					}
 				}
@@ -48,7 +58,22 @@ namespace System.Web.Mvc.Html {
 				return React.createElement(inputType, elementProperties);
 			}
 			else {
-				return React.createElement(inputType, elementProperties, inputElement.childNodes);
+				var childNodes: React.ReactNode[] = [];
+				var childValue: string = "";
+				for (let i = 0; i < inputElement.childNodes.length; i++) {
+					let currentInputElementChildNode = inputElement.childNodes[i];
+					let nodeType = this.NodeTypes[currentInputElementChildNode.nodeType];
+					if (nodeType === "Text") {
+						childValue = currentInputElementChildNode.nodeValue;
+					}
+				}
+
+				if (childValue === "") {
+					return React.createElement(inputType, elementProperties, childNodes);
+				}
+				else if (childNodes.length == 0) {
+					return React.createElement(inputType, elementProperties, childValue);
+				}
 			}
 		}
 	}

@@ -27,8 +27,8 @@ class Register extends React.Component<any, any> {
 		for (var property in registerModel) {
 			//let valuesForProperty = System.ComponentModel.DataAnnotations.GenericValidationAnnotation.Where(x => x.key[0] == property && x.key[1] == vmRegister);
 			const currentPropertyHtml = new System.Web.Mvc.Html.TextBoxFor(vmRegister, property, (propertyName: string) => registerModel[propertyName]).GetHtml();
-			let displayValuesForDisplayProperty = System.ComponentModel.DataAnnotations.GenericAttributeAnnotation.Where(x => x.key[0] == property && x.key[1] == vmRegister);
-			//displayFor.push(new System.Web.Mvc.Html.LabelFor(property, "", null));
+			const currentLabelForHtml = new System.Web.Mvc.Html.LabelFor(vmRegister, property, null).GetHtml();
+			displayFor.push(currentLabelForHtml);
 			textboxFor.push(currentPropertyHtml);
 		}
 
@@ -39,10 +39,11 @@ class Register extends React.Component<any, any> {
 					{
 						Object.keys(textboxFor).map((key, index) => {
 							const textboxRegister = textboxFor[index];
-
+							const labelRegister = displayFor[index];
 							return (
 								<div className="row" key={index}>
 									<div>
+										{labelRegister}
 										{textboxRegister}
 									</div>
 								</div>

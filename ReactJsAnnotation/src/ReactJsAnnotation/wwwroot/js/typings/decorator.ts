@@ -7,14 +7,14 @@ namespace System.ComponentModel.DataAnnotations {
 	export var GenericValidationAnnotation: Dictionary<[string, any, CSharpDataAnnoationType], GenericValidationAttribute> = new Dictionary<[string, any, CSharpDataAnnoationType], GenericValidationAttribute>();
 	export var GenericAttributeAnnotation: Dictionary<[string, any, any], GenericAttribute> = new Dictionary<[string, any, any], GenericAttribute>();;
 
-	export function display(errorMessage?: string) {
+	export function display(displayName?: string) {
 
 		function displayDecorator(target: any, key: string): void {
 			target.constructor();
 			// property value
 			let currentPropertyValue = target[key];
 			let displayDataAnnotation: DisplayDataAnnotation;
-			displayDataAnnotation = new DisplayDataAnnotation(key, currentPropertyValue);
+			displayDataAnnotation = new DisplayDataAnnotation(key, displayName);
 
 			// property getter
 			var getter = function () {
