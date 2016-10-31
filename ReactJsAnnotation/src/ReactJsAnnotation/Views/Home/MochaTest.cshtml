@@ -1,0 +1,22 @@
+﻿
+@{
+}
+
+<link href="~/lib/mocha/mocha.css" type="text/css" rel="stylesheet" />
+
+<div id="mocha"></div>
+
+<script type="text/javascript" src="~/lib/mocha/mocha.js"></script>
+<script type="text/javascript" src="~/lib/chai/chai.js"></script>
+<script type="text/javascript">
+	mocha.setup("tdd");
+
+	var expect = chai.expect;
+	var assert = chai.assert;
+	var should = chai.should();
+
+</script>
+<script type="text/javascript" src="~/js/tests/mochatest.js"></script>
+<script type="text/javascript">
+	mocha.run();
+</script>
